@@ -1,0 +1,12 @@
+{
+  "name": "@uni-vant/request",
+  "version": "1.0.0",
+  "description": "基于 axios 的 uniapp 请求库",
+  "author": "mengxianghan",
+  "license": "ISC",
+  "keywords": ["axios", "request", "uniapp", "uniapp axios", "uniapp request"],
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

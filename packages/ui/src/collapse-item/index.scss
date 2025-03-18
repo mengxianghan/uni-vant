@@ -1,0 +1,74 @@
+@import '../styles/variables';
+@import '../styles/mixins/hairline';
+@import '../cell/index';
+
+$van-collapse-item-duration: var(--van-collapse-item-duration, $van-duration-base);
+$van-collapse-item-content-padding: var(--van-collapse-item-content-padding, $van-padding-sm $van-padding-md);
+$van-collapse-item-content-font-size: var(--van-collapse-item-content-font-size, $van-font-size-md);
+$van-collapse-item-content-line-height: var(--van-collapse-item-content-line-height, 1.5);
+$van-collapse-item-content-text-color: var(--van-collapse-item-content-text-color, $van-text-color-2);
+$van-collapse-item-content-background: var(--van-collapse-item-content-background, $van-background-2);
+$van-collapse-item-title-disabled-color: var(--van-collapse-item-title-disabled-color, $van-text-color-3);
+
+.van-collapse-item {
+  position: relative;
+
+  &--border {
+    &::after {
+      @include hairline-top($van-border-color, $van-padding-md, $van-padding-md);
+    }
+  }
+
+  &__title {
+    .van-cell__right-icon {
+      // using translateZ to fix safari rendering issues
+      // see: https://github.com/vant-ui/vant/issues/8608
+      transform: rotate(90deg) translateZ(0);
+      transition: transform $van-collapse-item-duration;
+    }
+
+    &::after {
+      right: $van-padding-md;
+      display: none;
+    }
+
+    &--expanded {
+      .van-cell__right-icon {
+        transform: rotate(-90deg);
+      }
+
+      &::after {
+        display: block;
+      }
+    }
+
+    &--borderless {
+      &::after {
+        display: none;
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+
+      &,
+      & .van-cell__right-icon {
+        color: $van-collapse-item-title-disabled-color;
+      }
+    }
+  }
+
+  &__wrapper {
+    overflow: hidden;
+    transition: height $van-collapse-item-duration ease-in-out;
+    will-change: height;
+  }
+
+  &__content {
+    padding: $van-collapse-item-content-padding;
+    color: $van-collapse-item-content-text-color;
+    font-size: $van-collapse-item-content-font-size;
+    line-height: $van-collapse-item-content-line-height;
+    background: $van-collapse-item-content-background;
+  }
+}

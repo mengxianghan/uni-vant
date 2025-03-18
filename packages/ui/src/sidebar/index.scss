@@ -1,0 +1,9 @@
+@import '../styles/variables';
+
+$van-sidebar-width: var(--van-sidrbar-width, 80px);
+
+.van-sidebar {
+  width: $van-sidebar-width;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}

@@ -1,0 +1,58 @@
+@import './variables';
+@import './normalize';
+@import './clearfix';
+@import './ellipsis';
+@import './hairline';
+@import './safe-area';
+@import './animation';
+
+/* #ifdef H5 */
+@import './components/index';
+/* #endif */
+
+.van-button-reset {
+  position: relative;
+  display: initial;
+  margin: initial;
+  padding: initial;
+  box-sizing: inherit;
+  font-size: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  line-height: inherit;
+  border-radius: initial;
+  -webkit-tap-highlight-color: initial;
+  overflow: initial;
+  color: inherit;
+  background: initial;
+  cursor: initial;
+
+  &::after {
+    content: initial;
+    width: initial;
+    height: initial;
+    position: initial;
+    top: initial;
+    left: initial;
+    border: initial;
+    transform: initial;
+    transform-origin: initial;
+    box-sizing: initial;
+    border-radius: initial;
+  }
+
+  &.button-hover {
+    background-color: inherit;
+    color: inherit;
+  }
+}
+
+.van-haptics-feedback {
+  &:active {
+    opacity: var(--van-active-opacity, $van-active-opacity);
+  }
+}
+
+.van-overflow-hidden {
+  overflow: hidden !important;
+}

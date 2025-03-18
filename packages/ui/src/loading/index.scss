@@ -1,0 +1,95 @@
+@import '../styles/variables';
+
+$van-loading-text-color: var(--vanloading-text-color, $van-text-color-2);
+$van-loading-text-font-size: var(--van-loading-text-font-size, $van-font-size-md);
+$van-loading-spinner-color: var(--van-loading-spinner-color, $van-gray-5);
+$van-loading-spinner-size: var(--van-loading-spinner-size, 30px);
+$van-loading-spinner-duration: var(--van-loading-spinner-duration, 0.8s);
+
+.van-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $van-loading-spinner-color;
+
+  &__spinner {
+    position: relative;
+    box-sizing: border-box;
+    width: $van-loading-spinner-size;
+    // compatible for 0.x, users may set width or height in root element
+    max-width: 100%;
+    max-height: 100%;
+    height: $van-loading-spinner-size;
+    animation: van-rotate 2s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--spinner {
+      animation-timing-function: steps(12);
+      animation-duration: $van-loading-spinner-duration;
+    }
+
+    &--circular {
+      border: 1.5px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 100%;
+      animation-duration: $van-loading-spinner-duration;
+    }
+  }
+
+  &__text {
+    display: inline-block;
+    margin-left: $van-padding-xs;
+    color: $van-loading-text-color;
+    font-size: $van-loading-text-font-size;
+    vertical-align: middle;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &--vertical {
+    flex-direction: column;
+
+    .van-loading__text {
+      margin: $van-padding-xs 0 0;
+    }
+  }
+
+  &__dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    &::before {
+      display: block;
+      width: 2px;
+      height: 25%;
+      margin: 0 auto;
+      background-color: currentColor;
+      border-radius: 2px;
+      content: ' ';
+    }
+  }
+}
+
+@for $i from 1 through 12 {
+  .van-loading__dot:nth-of-type(#{$i}) {
+    transform: rotate($i * 30deg);
+    opacity: calc(1 - 0.75 / 12 * ($i - 1));
+  }
+}
+
+@keyframes van-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "types": [
+      "vite/client",
+      "@dcloudio/types",
+      "@uni-helper/uni-app-types",
+      "miniprogram-api-typings"
+    ],
+    "strict": true
+  }
+}

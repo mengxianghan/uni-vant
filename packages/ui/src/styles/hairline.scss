@@ -1,0 +1,46 @@
+@import './mixins/hairline';
+
+[class*='van-hairline'] {
+  &::after {
+    @include hairline();
+  }
+}
+
+.van-hairline {
+  &,
+  &--top,
+  &--left,
+  &--right,
+  &--bottom,
+  &--surround,
+  &--top-bottom {
+    position: relative;
+  }
+
+  &--top::after {
+    border-top-width: var(--van-border-width, $van-border-width);
+  }
+
+  &--left::after {
+    border-left-width: var(--van-border-width, $van-border-width);
+  }
+
+  &--right::after {
+    border-right-width: var(--van-border-width, $van-border-width);
+  }
+
+  &--bottom::after {
+    border-bottom-width: var(--van-border-width, $van-border-width);
+  }
+
+  &,
+  &-unset {
+    &--top-bottom::after {
+      border-width: var(--van-border-width, $van-border-width) 0;
+    }
+  }
+
+  &--surround::after {
+    border-width: var(--van-border-width, $van-border-width);
+  }
+}

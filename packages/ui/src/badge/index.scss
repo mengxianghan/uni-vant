@@ -1,0 +1,72 @@
+@import '../styles/variables';
+
+$van-badge-size: var(--van-badge-size, 16px);
+$van-badge-color: var(--van-badge-color, $van-white);
+$van-badge-padding: var(--van-badge-padding, 0 3px);
+$van-badge-font-size: var(--van-badge-font-size, $van-font-size-sm);
+$van-badge-font-weight: var(--van-badge-font-weight, $van-font-bold);
+$van-badge-border-width: var(--van-badge-border-width, $van-border-width);
+$van-badge-background: var(--van-badge-background, $van-danger-color);
+$van-badge-dot-color: var(--van-badge-dot-color, $van-danger-color);
+$van-badge-dot-size: var(--van-badge-dot-size, 8px);
+$van-badge-font: var(--van-badge-font, -apple-system-font, helvetica neue, arial, sans-serif);
+
+.van-badge {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: $van-badge-size;
+  padding: $van-badge-padding;
+  color: $van-badge-color;
+  font-weight: $van-badge-font-weight;
+  font-size: $van-badge-font-size;
+  font-family: $van-badge-font;
+  line-height: 1.2;
+  text-align: center;
+  background: $van-badge-background;
+  border: $van-badge-border-width solid $van-background-2;
+  border-radius: $van-radius-max;
+
+  &--fixed {
+    position: absolute;
+    transform-origin: 100%;
+  }
+
+  &--top-left {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &--top-right {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+
+  &--bottom-left {
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, 50%);
+  }
+
+  &--bottom-right {
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+  }
+
+  &--dot {
+    width: $van-badge-dot-size;
+    min-width: 0;
+    height: $van-badge-dot-size;
+    background: $van-badge-dot-color;
+    border-radius: 100%;
+    border: none;
+    padding: 0;
+  }
+
+  &__wrapper {
+    position: relative;
+    display: inline-block;
+  }
+}

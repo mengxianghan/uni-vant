@@ -1,0 +1,106 @@
+@import '../styles/variables';
+@import '../styles/animation';
+
+$van-popup-background: var(--van-popup-background, $van-background-2);
+$van-popup-transition: transform var(--van-popup-transition, $van-duration-base);
+$van-popup-round-radius: var(--van-popup-round-radius, 16px);
+$van-popup-close-icon-size: var(--van-popup-close-icon-size, 22px);
+$van-popup-close-icon-color: var(--van-popup-close-icon-color, $van-gray-5);
+$van-popup-close-icon-margin: var(--van-popup-close-icon-margin, 16px);
+$van-popup-close-icon-z-index: var(--van-popup-close-icon-z-index, 1);
+
+.van {
+  &-overflow-hidden {
+    overflow: hidden !important;
+  }
+
+  &-popup {
+    position: fixed;
+    max-height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    background: $van-popup-background;
+    -webkit-overflow-scrolling: touch;
+
+    &--center {
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin-inline: auto;
+      width: fit-content;
+      max-width: calc(100vw - $van-padding-md * 2);
+      transform: translateY(-50%);
+
+      &.van-popup--round {
+        border-radius: $van-popup-round-radius;
+      }
+    }
+
+    &--top {
+      top: 0;
+      left: 0;
+      right: 0;
+
+      &.van-popup--round {
+        border-radius: 0 0 $van-popup-round-radius $van-popup-round-radius;
+      }
+    }
+
+    &--right {
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      &.van-popup--round {
+        border-radius: $van-popup-round-radius 0 0 $van-popup-round-radius;
+      }
+    }
+
+    &--bottom {
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      &.van-popup--round {
+        border-radius: $van-popup-round-radius $van-popup-round-radius 0 0;
+      }
+    }
+
+    &--left {
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      &.van-popup--round {
+        border-radius: 0 $van-popup-round-radius $van-popup-round-radius 0;
+      }
+    }
+
+    &__close-icon {
+      position: absolute;
+      z-index: $van-popup-close-icon-z-index;
+      color: $van-popup-close-icon-color;
+      font-size: $van-popup-close-icon-size;
+
+      &--top-left {
+        top: $van-popup-close-icon-margin;
+        left: $van-popup-close-icon-margin;
+      }
+
+      &--top-right {
+        top: $van-popup-close-icon-margin;
+        right: $van-popup-close-icon-margin;
+      }
+
+      &--bottom-left {
+        bottom: $van-popup-close-icon-margin;
+        left: $van-popup-close-icon-margin;
+      }
+
+      &--bottom-right {
+        right: $van-popup-close-icon-margin;
+        bottom: $van-popup-close-icon-margin;
+      }
+    }
+  }
+}

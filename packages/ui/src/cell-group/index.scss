@@ -1,0 +1,32 @@
+@import '../styles/variables';
+@import '../styles/hairline';
+
+$van-cell-group-background: var(--van-cell-group-background, $van-background-2);
+$van-cell-group-title-color: var(--van-cell-group-title-color, $van-text-color-2);
+$van-cell-group-title-padding: var(--van-cell-group-title-padding, $van-padding-md);
+$van-cell-group-title-font-size: var(--van-cell-group-title-font-size, $van-font-size-md);
+$van-cell-group-title-line-height: var(--van-cell-group-title-line-height, 16px);
+$van-cell-group-inset-padding: var(--van-cell-group-inset-padding, 0 $van-padding-md);
+$van-cell-group-inset-radius: var(--van-cell-group-inset-radius, $van-radius-lg);
+$van-cell-group-inset-title-padding: var(--van-cell-group-inset-title-padding, $van-padding-md);
+
+.van-cell-group {
+  background: $van-cell-group-background;
+
+  &--inset {
+    margin: $van-cell-group-inset-padding;
+    border-radius: $van-cell-group-inset-radius;
+    overflow: hidden;
+  }
+
+  &__title {
+    padding: $van-cell-group-title-padding;
+    color: $van-cell-group-title-color;
+    font-size: $van-cell-group-title-font-size;
+    line-height: $van-cell-group-title-line-height;
+
+    &--inset {
+      padding: $van-cell-group-inset-title-padding;
+    }
+  }
+}

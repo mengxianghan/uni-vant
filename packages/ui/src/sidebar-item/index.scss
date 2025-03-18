@@ -1,0 +1,72 @@
+@import '../styles/variables';
+
+$van-sidebar-font-size: var(--van-sidebar-font-size, $van-font-size-md);
+$van-sidebar-line-height: var(--van-sidebar-line-height, $van-line-height-md);
+$van-sidebar-text-color: var(--van-sidebar-text-color, $van-text-color);
+$van-sidebar-disabled-text-color: var(--van-sidebar-disabled-text-color, $van-text-color-3);
+$van-sidebar-padding: var(--van-sidebar-padding, 20px $van-padding-sm);
+$van-sidebar-active-color: var(--van-sidebar-active-color, $van-active-color);
+$van-sidebar-background: var(--van-sidebar-background, $van-background);
+$van-sidebar-selected-font-weight: var(--van-sidebar-selected-font-weight, $van-font-bold);
+$van-sidebar-selected-text-color: var(--van-sidebar-selected-text-color, $van-text-color);
+$van-sidebar-selected-border-width: var(--van-sidebar-selected-border-width, 4px);
+$van-sidebar-selected-border-height: var(--van-sidebar-selected-border-height, 16px);
+$van-sidebar-selected-border-color: var(--van-sidebar-selected-border-color, $van-primary-color);
+$van-sidebar-selected-background: var(--van-sidebar-selected-background, $van-background-2);
+
+.van-sidebar-item {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  padding: $van-sidebar-padding;
+  overflow: hidden;
+  color: $van-sidebar-text-color;
+  font-size: $van-sidebar-font-size;
+  line-height: $van-sidebar-line-height;
+  background: $van-sidebar-background;
+  // cursor: pointer;
+  user-select: none;
+
+  &:active {
+    background-color: $van-sidebar-active-color;
+  }
+
+  &:not(:last-child)::after {
+    border-bottom-width: 1px;
+  }
+
+  &__text {
+    // https://github.com/vant-ui/vant/issues/7455
+    word-break: break-all;
+  }
+
+  &--select {
+    color: $van-sidebar-selected-text-color;
+    font-weight: $van-sidebar-selected-font-weight;
+
+    &,
+    &:active {
+      background-color: $van-sidebar-selected-background;
+    }
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: $van-sidebar-selected-border-width;
+      height: $van-sidebar-selected-border-height;
+      background-color: $van-sidebar-selected-border-color;
+      transform: translateY(-50%);
+      content: '';
+    }
+  }
+
+  &--disabled {
+    color: $van-sidebar-disabled-text-color;
+    cursor: not-allowed;
+
+    &:active {
+      background-color: $van-sidebar-background;
+    }
+  }
+}
