@@ -3,12 +3,12 @@
 layout: home
 
 hero:
-  name: "uvant"
+  name: "uni-vant"
   text: "vant 风格的轻量级移动端 uniapp 组件库"
   tagline: 轻量、可定制的移动端 Vue 组件库
   image:
-    src: '/logo.svg'
-    alt: uvant
+    src: '/images/logo.svg'
+    alt: uni-vant
   actions:
     - theme: brand
       text: 快速开始

@@ -1,4 +1,3 @@
-import { version } from '../../package.json'
 import { components, guide } from './sidebar'
 
 export const navs = [
@@ -11,13 +10,13 @@ export const navs = [
   })) },
   { text: '示例', link: 'https://xuanyunet.com' },
   { text: '其他', items: [] },
-  {
-    text: `v${version}`,
-    items: [
-      {
-        text: '更新日志',
-        link: 'https://xuanyunet.com',
-      },
-    ],
-  },
+  // {
+  //   text: `v${version}`,
+  //   items: [
+  //     {
+  //       text: '更新日志',
+  //       link: 'https://xuanyunet.com',
+  //     },
+  //   ],
+  // },
 ]
