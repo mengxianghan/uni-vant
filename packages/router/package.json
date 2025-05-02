@@ -1,0 +1,51 @@
+{
+  "name": "uni-vant-router",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "基于 uniapp 的路由",
+  "author": {
+    "name": "mengxianghan",
+    "email": "mengxianghan@qq.com"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mengxianghan/uni-vant"
+  },
+  "bugs": {
+    "url": "https://github.com/mengxianghan/uni-vant/issues"
+  },
+  "keywords": [
+    "router",
+    "uniapp",
+    "uniapp-router",
+    "uni-router"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "weixin-js-sdk": "^1.6.5"
+  }
+}
