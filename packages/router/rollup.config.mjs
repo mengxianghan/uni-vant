@@ -11,10 +11,6 @@ export default [
     output: [
       {
         file: 'dist/index.js',
-        format: 'cjs',
-      },
-      {
-        file: 'dist/index.mjs',
         format: 'esm',
       },
     ],
@@ -32,7 +28,7 @@ export default [
     output: [
       {
         file: 'dist/index.d.ts',
-        format: 'cjs',
+        format: 'esm',
       },
     ],
     plugins: [
