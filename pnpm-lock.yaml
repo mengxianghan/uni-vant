@@ -343,7 +343,11 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(rollup@4.34.7)
 
-  packages/router: {}
+  packages/router:
+    dependencies:
+      weixin-js-sdk:
+        specifier: ^1.6.5
+        version: 1.6.5
 
   packages/ui:
     dependencies:
@@ -7326,6 +7330,9 @@ packages:
 
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
+
+  weixin-js-sdk@1.6.5:
+    resolution: {integrity: sha512-Gph1WAWB2YN/lMOFB/ymb+hbU/wYazzJgu6PMMktCy9cSCeW5wA6Zwt0dpahJbJ+RJEwtTv2x9iIu0U4enuVSQ==}
 
   whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}
@@ -16592,6 +16599,8 @@ snapshots:
   webpack-sources@3.2.3: {}
 
   webpack-virtual-modules@0.6.2: {}
+
+  weixin-js-sdk@1.6.5: {}
 
   whatwg-encoding@1.0.5:
     dependencies:
