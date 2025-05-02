@@ -1,0 +1,56 @@
+@import '../styles/variables';
+
+$van-floating-panel-border-radius: var(--van-floating-panel-border-radius, 16px);
+$van-floating-panel-header-height: var(--van-floating-panel-header-height, 30px);
+$van-floating-panel-z-index: var(--van-floating-panel-z-index, 999);
+$van-floating-panel-background: var(--van-floating-panel-background, $van-background-2);
+$van-floating-panel-bar-width: var(--van-floating-panel-bar-width, 20px);
+$van-floating-panel-bar-height: var(--van-floating-panel-bar-height, 3px);
+$van-floating-panel-bar-color: var(--van-floating-panel-bar-color, $van-gray-5);
+
+.van-floating-panel {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: $van-floating-panel-z-index;
+  display: flex;
+  flex-direction: column;
+  touch-action: none;
+  border-top-left-radius: $van-floating-panel-border-radius;
+  border-top-right-radius: $van-floating-panel-border-radius;
+  background: $van-floating-panel-background;
+  will-change: transform;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -100vh;
+    height: 100vh;
+    width: 100vw;
+    background-color: inherit;
+  }
+
+  &__header {
+    height: $van-floating-panel-header-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+
+    &-bar {
+      height: $van-floating-panel-bar-height;
+      width: $van-floating-panel-bar-width;
+      border-radius: $van-radius-md;
+      background: $van-floating-panel-bar-color;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    background-color: $van-floating-panel-background;
+  }
+}

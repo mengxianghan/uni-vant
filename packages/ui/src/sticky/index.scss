@@ -1,0 +1,10 @@
+@import '../styles/variables';
+
+$van-sticky-z-index: var(--van-sticky-z-index, 99);
+
+.van-sticky {
+  &--fixed {
+    position: fixed;
+    z-index: $van-sticky-z-index;
+  }
+}

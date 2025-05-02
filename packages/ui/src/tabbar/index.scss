@@ -1,0 +1,24 @@
+@import '../styles/variables';
+
+$van-tabbar-height: var(--van-tabbar-height, 50px);
+$van-tabbar-z-index: var(--van-tabbar-z-index, 1);
+$van-tabbar-background: var(--van-tabbar-background, $van-background-2);
+
+.van-tabbar {
+  z-index: $van-tabbar-z-index;
+  display: flex;
+  box-sizing: content-box;
+  width: 100%;
+  height: $van-tabbar-height;
+  background: $van-tabbar-background;
+
+  &--fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  :deep(van-tabbar-item) {
+    flex: 1;
+  }
+}

@@ -1,0 +1,15 @@
+@import '../styles/variables';
+@import './encode-woff2';
+
+$van-icon-size: var(--van-icon-size, inherit);
+
+.van-icon {
+  &__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    font-size: $van-icon-size;
+  }
+}

@@ -1,0 +1,85 @@
+@import '../styles/variables';
+
+$van-switch-size: var(--van-switch-size, 26px);
+$van-switch-width: var(--van-switch-width, calc(1.8em + 4px));
+$van-switch-height: var(--van-switch-height, calc(1em + 4px));
+$van-switch-node-size: var(--van-switch-node-size, 1em);
+$van-switch-node-background: var(--van-switch-node-background, $van-white);
+$van-switch-node-shadow: var(van-switch-node-shadow, 0 3px 1px 0 rgba(0, 0, 0, 0.05));
+$van-switch-background: var(--van-switch-background, rgba(120, 120, 128, 0.16));
+$van-switch-on-background: var(--van-switch-on-background, $van-primary-color);
+$van-switch-duration: var(--van-switch-duration, $van-duration-base);
+$van-switch-disabled-opacity: var(--van-switch-disabled-opacity, $van-disabled-opacity);
+
+.van-theme-dark {
+  --van-switch-background: rgba(120, 120, 128, 0.32);
+}
+
+.van-switch {
+  position: relative;
+  display: inline-block;
+  box-sizing: content-box;
+  width: $van-switch-width;
+  height: $van-switch-height;
+  font-size: $van-switch-size;
+  background: $van-switch-background;
+  border-radius: $van-switch-node-size;
+  transition: background-color $van-switch-duration;
+
+  &__node {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: $van-switch-node-size;
+    height: $van-switch-node-size;
+    // https://github.com/vant-ui/vant/issues/9839
+    font-size: inherit;
+    background: $van-switch-node-background;
+    border-radius: 100%;
+    box-shadow: $van-switch-node-shadow;
+    transition: transform $van-switch-duration cubic-bezier(0.3, 1.05, 0.4, 1.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $van-switch-background;
+    line-height: 0;
+
+    > * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__loading {
+    width: 50%;
+    height: 50%;
+    line-height: 0;
+
+    --van-loading-spinner-size: calc(#{$van-switch-size} / 2);
+  }
+
+  &--on {
+    background: $van-switch-on-background;
+
+    .van-switch__node {
+      transform: translateX(calc($van-switch-width - $van-switch-node-size - 4px));
+      color: $van-switch-on-background;
+    }
+
+    .van-switch__loading {
+      color: $van-switch-on-background;
+
+      --van-loading-spinner-color: $van-switch-on-background;
+    }
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: $van-switch-disabled-opacity;
+  }
+
+  &--loading {
+    cursor: default;
+  }
+}

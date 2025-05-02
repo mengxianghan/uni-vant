@@ -1,0 +1,304 @@
+@import '../styles/variables';
+
+$van-button-mini-height: var(--van-button-mini-height, 24px);
+$van-button-mini-padding: var(--van-button-mini-padding, 0 $van-padding-base);
+$van-button-mini-font-size: var(--van-button-mini-font-size, $van-font-size-xs);
+$van-button-small-height: var(--van-button-small-height, 32px);
+$van-button-small-padding: var(--van-button-small-padding, 0 $van-padding-xs);
+$van-button-small-font-size: var(--van-button-small-font-size, $van-font-size-sm);
+$van-button-normal-padding: var(--van-button-normal-padding, 0 $van-padding-md);
+$van-button-normal-font-size: var(--van-button-normal-font-size, $van-font-size-md);
+$van-button-large-height: var(--van-button-large-height, 50px);
+$van-button-large-padding: var(--van-button-large-padding, 0 $van-padding-lg);
+$van-button-default-width: var(--van-button-default-width, auto);
+$van-button-default-height: var(--van-button-default-height, 44px);
+$van-button-default-line-height: var(--van-button-default-line-height, 1.2);
+$van-button-default-font-size: var(--van-button-default-font-size, $van-font-size-lg);
+$van-button-default-color: var(--van-button-default-color, $van-text-color);
+$van-button-default-background: var(--van-button-default-background, $van-background-2);
+$van-button-default-border-color: var(--van-button-default-border-color, $van-gray-4);
+$van-button-primary-color: var(--van-button-primary-color, $van-white);
+$van-button-primary-background: var(--van-button-primary-background, $van-primary-color);
+$van-button-primary-border-color: var(--van-button-primary-border-color, $van-primary-color);
+$van-button-success-color: var(--van-button-success-color, $van-white);
+$van-button-success-background: var(--van-button-success-background, $van-success-color);
+$van-button-success-border-color: var(--van-button-success-border-color, $van-success-color);
+$van-button-danger-color: var(--van-button-danger-color, $van-white);
+$van-button-danger-background: var(--van-button-danger-background, $van-danger-color);
+$van-button-danger-border-color: var(--van-button-danger-border-color, $van-danger-color);
+$van-button-warning-color: var(--van-button-warning-color, $van-white);
+$van-button-warning-background: var(--van-button-warning-background, $van-warning-color);
+$van-button-warning-border-color: var(--van-button-warning-border-color, $van-warning-color);
+$van-button-info-color: var(--van-button-info-color, $van-white);
+$van-button-info-background: var(--van-button-info-background, $van-info-color);
+$van-button-info-border-color: var(--van-button-info-border-color, $van-info-color);
+$van-button-border-width: var(--van-button-border-width, $van-border-width);
+$van-button-radius: var(--van-button-radius, $van-radius-md);
+$van-button-round-radius: var(--van-button-round-radius, $van-radius-max);
+$van-button-plain-background: var(--van-button-plain-background, $van-white);
+$van-button-disabled-opacity: var(--van-button-disabled-opacity, $van-disabled-opacity);
+$van-button-icon-size: var(--van-button-icon-size, 1.2em);
+$van-button-loading-icon-size: var(--van-button-loading-icon-size, 20px);
+
+.van-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $van-button-default-width;
+  height: $van-button-default-height;
+  margin: 0;
+  padding: 0;
+  font-size: $van-button-default-font-size;
+  line-height: $van-button-default-line-height;
+  text-align: center;
+  border-radius: $van-button-radius;
+  transition: opacity $van-duration-fast;
+
+  --van-loading-spinner-color: currentColor;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: $van-black;
+    //border: inherit;
+    border-color: $van-black;
+    border-radius: inherit; /* inherit parent's border radius */
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    content: ' ';
+  }
+
+  &::after {
+    border-width: 0;
+  }
+
+  //&:active::before {
+  //    opacity: 0.1;
+  //}
+
+  &--loading,
+  &--disabled {
+    &::before {
+      display: none;
+    }
+  }
+
+  &--default {
+    color: $van-button-default-color;
+    background: $van-button-default-background;
+    border: $van-button-border-width solid $van-button-default-border-color;
+  }
+
+  &--primary {
+    color: $van-button-primary-color;
+    background: $van-button-primary-background;
+    border: $van-button-border-width solid $van-button-primary-border-color;
+  }
+
+  &--success {
+    color: $van-button-success-color;
+    background: $van-button-success-background;
+    border: $van-button-border-width solid $van-button-success-border-color;
+  }
+
+  &--danger {
+    color: $van-button-danger-color;
+    background: $van-button-danger-background;
+    border: $van-button-border-width solid $van-button-danger-border-color;
+  }
+
+  &--warning {
+    color: $van-button-warning-color;
+    background: $van-button-warning-background;
+    border: $van-button-border-width solid $van-button-warning-border-color;
+  }
+
+  &--info {
+    color: $van-button-info-color;
+    background: $van-button-info-background;
+    border: $van-button-border-width solid $van-button-info-border-color;
+  }
+
+  &--plain {
+    background: $van-button-plain-background;
+
+    &.van-button--primary {
+      color: $van-button-primary-background;
+    }
+
+    &.van-button--success {
+      color: $van-button-success-background;
+    }
+
+    &.van-button--danger {
+      color: $van-button-danger-background;
+    }
+
+    &.van-button--warning {
+      color: $van-button-warning-background;
+    }
+
+    &.van-button--info {
+      color: $van-button-info-background;
+    }
+  }
+
+  &--large {
+    // width: 100%;
+    padding: $van-button-large-padding;
+    height: $van-button-large-height;
+  }
+
+  &--normal {
+    padding: $van-button-normal-padding;
+    font-size: $van-button-normal-font-size;
+  }
+
+  &--small {
+    height: $van-button-small-height;
+    padding: $van-button-small-padding;
+    font-size: $van-button-small-font-size;
+  }
+
+  &__loading {
+    color: inherit;
+    font-size: inherit;
+
+    .van-loading__spinner {
+      color: currentColor;
+      width: $van-button-loading-icon-size;
+      height: $van-button-loading-icon-size;
+    }
+  }
+
+  &--mini {
+    height: $van-button-mini-height;
+    padding: $van-button-mini-padding;
+    font-size: $van-button-mini-font-size;
+
+    & + .van-button--mini {
+      margin-left: $van-padding-base;
+    }
+  }
+
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+
+  &--disabled {
+    opacity: $van-button-disabled-opacity;
+
+    &:not(.van-button--plain) {
+      &.van-button--primary {
+        background-color: $van-button-primary-background !important;
+        color: $van-button-primary-color !important;
+      }
+
+      &.van-button--success {
+        background-color: $van-button-success-background !important;
+        color: $van-button-success-color !important;
+      }
+
+      &.van-button--danger {
+        background-color: $van-button-danger-background !important;
+        color: $van-button-danger-color !important;
+      }
+
+      &.van-button--warning {
+        background-color: $van-button-warning-background !important;
+        color: $van-button-warning-color !important;
+      }
+
+      &.van-button--info {
+        background-color: $van-button-info-background !important;
+        color: $van-button-info-color !important;
+      }
+    }
+
+    &.van-button--plain {
+      &.van-button--primary {
+        color: $van-button-primary-background !important;
+      }
+
+      &.van-button--success {
+        color: $van-button-success-background !important;
+      }
+
+      &.van-button--danger {
+        color: $van-button-danger-background !important;
+      }
+
+      &.van-button--warning {
+        color: $van-button-warning-background !important;
+      }
+
+      &.van-button--info {
+        color: $van-button-info-background !important;
+      }
+    }
+  }
+
+  &--loading {
+    cursor: default;
+  }
+
+  &--round {
+    border-radius: $van-button-round-radius;
+  }
+
+  &--square {
+    border-radius: 0;
+  }
+
+  // align-items are ignored when flex container is a button in legacy safari
+  // see: https://bugs.webkit.org/show_bug.cgi?id=169700
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    --van-loading-spinner-size: #{$van-button-loading-icon-size};
+
+    // fix icon vertical align
+    // see: https://github.com/vant-ui/vant/issues/7617
+    &::before {
+      content: ' ';
+    }
+  }
+
+  &__icon {
+    line-height: 0;
+    font-size: $van-button-icon-size;
+  }
+
+  &__icon + &__text,
+  &__loading + &__text,
+  &__text + &__icon,
+  &__text + &__loading {
+    margin-left: $van-padding-base;
+  }
+
+  &--hairline {
+    border-width: 0;
+
+    &::after {
+      border-color: inherit;
+      border-radius: calc($van-button-radius * 2);
+      border-width: 1px;
+    }
+
+    &.van-button--round::after {
+      border-radius: $van-button-round-radius;
+    }
+
+    &.van-button--square::after {
+      border-radius: 0;
+    }
+  }
+}

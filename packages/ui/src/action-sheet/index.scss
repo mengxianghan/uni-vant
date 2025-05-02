@@ -1,0 +1,144 @@
+@import '../styles/variables';
+@import '../styles/mixins/hairline';
+
+$van-action-sheet-max-height: var(--van-action-sheet-max-height, 80%);
+$van-action-sheet-header-height: var(--van-action-sheet-header-height, 48px);
+$van-action-sheet-header-font-size: var(--van-action-sheet-header-font-size, $van-font-size-lg);
+$van-action-sheet-description-color: var(--van-action-sheet-description-color, $van-text-color-2);
+$van-action-sheet-description-font-size: var(--van-action-sheet-description-font-size, $van-font-size-md);
+$van-action-sheet-description-line-height: var(--van-action-sheet-description-line-height, $van-line-height-md);
+$van-action-sheet-item-background: var(--van-action-sheet-item-background, $van-background-2);
+$van-action-sheet-item-font-size: var(--van-action-sheet-item-font-size, $van-font-size-lg);
+$van-action-sheet-item-line-height: var(--van-action-sheet-item-line-height, $van-line-height-lg);
+$van-action-sheet-item-text-color: var(--van-action-sheet-item-text-color, $van-text-color);
+$van-action-sheet-item-disabled-text-color: var(--van-action-sheet-item-disabled-text-color, $van-text-color-3);
+$van-action-sheet-item-icon-size: var(--van-action-sheet-item-icon-size, 18px);
+$van-action-sheet-item-icon-margin-right: var(--van-action-sheet-item-icon-margin-right, $van-padding-xs);
+$van-action-sheet-subname-color: var(--van-action-sheet-subname-color, $van-text-color-2);
+$van-action-sheet-subname-font-size: var(--van-action-sheet-subname-font-size, $van-font-size-sm);
+$van-action-sheet-subname-line-height: var(--van-action-sheet-subname-line-height, $van-line-height-sm);
+$van-action-sheet-close-icon-size: var(--van-action-sheet-close-icon-size, 22px);
+$van-action-sheet-close-icon-color: var(--van-action-sheet-close-icon-color, $van-gray-5);
+$van-action-sheet-close-icon-padding: var(--van-action-sheet-close-icon-padding, 0 $van-padding-md);
+$van-action-sheet-cancel-text-color: var(--van-action-sheet-cancel-text-color, $van-gray-7);
+$van-action-sheet-cancel-padding-top: var(--van-action-sheet-cancel-padding-top, $van-padding-xs);
+$van-action-sheet-cancel-padding-color: var(--van-action-sheet-cancel-padding-color, $van-background);
+$van-action-sheet-loading-icon-size: var(--van-action-sheet-loading-icon-size, 22px);
+
+.van-action-sheet {
+  display: flex;
+  flex-direction: column;
+  max-height: $van-action-sheet-max-height;
+  overflow: hidden;
+  color: $van-action-sheet-item-text-color;
+
+  &__content {
+    flex: 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__item,
+  &__cancel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px $van-padding-md;
+    font-size: $van-action-sheet-item-font-size;
+    background: $van-action-sheet-item-background;
+    border: none;
+    cursor: pointer;
+
+    &:active {
+      background-color: $van-active-color;
+    }
+  }
+
+  &__item {
+    line-height: $van-action-sheet-item-line-height;
+
+    &--loading,
+    &--disabled {
+      color: $van-action-sheet-item-disabled-text-color;
+
+      &:active {
+        background-color: $van-action-sheet-item-background;
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+    }
+
+    &--loading {
+      cursor: default;
+    }
+
+    &-icon {
+      font-size: $van-action-sheet-item-icon-size;
+      margin-right: $van-action-sheet-item-icon-margin-right;
+    }
+  }
+
+  &__cancel {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    color: $van-action-sheet-cancel-text-color;
+  }
+
+  &__subname {
+    width: 100%;
+    text-align: center;
+    margin-top: $van-padding-xs;
+    color: $van-action-sheet-subname-color;
+    font-size: $van-action-sheet-subname-font-size;
+    line-height: $van-action-sheet-subname-line-height;
+    overflow-wrap: break-word;
+  }
+
+  &__gap {
+    display: block;
+    height: $van-action-sheet-cancel-padding-top;
+    background: $van-action-sheet-cancel-padding-color;
+  }
+
+  &__header {
+    flex-shrink: 0;
+    font-weight: $van-font-bold;
+    font-size: $van-action-sheet-header-font-size;
+    line-height: $van-action-sheet-header-height;
+    text-align: center;
+  }
+
+  &__description {
+    position: relative;
+    flex-shrink: 0;
+    padding: 20px $van-padding-md;
+    color: $van-action-sheet-description-color;
+    font-size: $van-action-sheet-description-font-size;
+    line-height: $van-action-sheet-description-line-height;
+    text-align: center;
+
+    &::after {
+      @include hairline-bottom($van-border-color, $van-padding-md, $van-padding-md);
+    }
+  }
+
+  &__loading-icon :deep(.van-loading__spinner) {
+    width: $van-action-sheet-loading-icon-size;
+    height: $van-action-sheet-loading-icon-size;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    padding: $van-action-sheet-close-icon-padding;
+    color: $van-action-sheet-close-icon-color;
+    font-size: $van-action-sheet-close-icon-size;
+    line-height: inherit;
+  }
+}

@@ -1,0 +1,28 @@
+@import '../styles/variables';
+@import '../styles/safe-area';
+
+$van-action-bar-background: var(--van-action-bar-background, $van-background-2);
+$van-action-bar-height: var(--van-action-bar-height, 50px);
+
+.van-action-bar {
+  display: flex;
+  align-items: center;
+  box-sizing: content-box;
+  height: $van-action-bar-height;
+  background: $van-action-bar-background;
+
+  &--fixed {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  :deep(.van-action-bar-button) {
+    flex: 1;
+  }
+
+  :deep(.van-action-bar-icon) {
+    height: 100%;
+  }
+}

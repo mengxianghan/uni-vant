@@ -1,0 +1,74 @@
+@import '../variables';
+
+$van-uni-action-sheet-max-height: var(--van-uni-action-sheet-max-height, 80%);
+$van-uni-action-sheet-header-height: var(--van-uni-action-sheet-header-height, 48px);
+$van-uni-action-sheet-header-font-size: var(--van-uni-action-sheet-header-font-size, $van-font-size-lg);
+$van-uni-action-sheet-item-background: var(--van-uni-action-sheet-item-background, $van-background-2);
+$van-uni-action-sheet-item-font-size: var(--van-uni-action-sheet-item-font-size, $van-font-size-lg);
+$van-uni-action-sheet-item-line-height: var(--van-uni-action-sheet-item-line-height, $van-line-height-lg);
+$van-uni-action-sheet-item-text-color: var(--van-uni-action-sheet-item-text-color, $van-text-color);
+$van-uni-action-sheet-cancel-text-color: var(--van-uni-action-sheet-cancel-text-color, $van-gray-7);
+$van-uni-action-sheet-cancel-padding-top: var(--van-uni-action-sheet-cancel-padding-top, $van-padding-xs);
+$van-uni-action-sheet-cancel-padding-color: var(--van-uni-action-sheet-cancel-padding-color, $van-background);
+$van-uni-action-sheet-radius: var(--van-uni-action-sheet-radius, 16px 16px 0 0);
+
+uni-actionsheet {
+  .uni-actionsheet {
+    display: flex;
+    flex-direction: column;
+    //max-height: $van-uni-action-sheet-max-height;
+    overflow: hidden;
+    color: $van-uni-action-sheet-item-text-color;
+    border-radius: $van-uni-action-sheet-radius;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    &__menu {
+      border-radius: 0;
+    }
+
+    &__cell {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px $van-padding-md;
+      font-size: $van-uni-action-sheet-item-font-size;
+      background: $van-uni-action-sheet-item-background;
+      border: none;
+      line-height: $van-uni-action-sheet-item-line-height;
+
+      &::before {
+        display: none;
+      }
+
+      &:active {
+        background-color: $van-active-color;
+      }
+    }
+
+    &__title {
+      flex-shrink: 0;
+      font-weight: $van-font-bold;
+      font-size: $van-uni-action-sheet-header-font-size;
+      line-height: $van-uni-action-sheet-header-height;
+      text-align: center;
+      padding: 0;
+      border-radius: 0;
+      border-bottom: none;
+    }
+
+    &__action {
+      margin-top: 0;
+      border-radius: 0;
+      background: $van-uni-action-sheet-cancel-padding-color;
+      padding-top: $van-uni-action-sheet-cancel-padding-top;
+
+      .uni-actionsheet__cell {
+        color: $van-uni-action-sheet-cancel-text-color;
+      }
+    }
+  }
+}

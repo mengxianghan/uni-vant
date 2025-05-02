@@ -1,0 +1,93 @@
+@import '../variables';
+@import '../hairline';
+
+$van-uni-modal-width: var(--van-uni-modal-width, 320px);
+$van-uni-modal-small-screen-width: var(--van-uni-modal-small-screen-width, 90%);
+$van-uni-modal-font-size: var(--van-uni-modal-font-size, $van-font-size-lg);
+$van-uni-modal-transition: var(--van-uni-modal-transition, $van-duration-base);
+$van-uni-modal-radius: var(--van-uni-modal-radius, 16px);
+$van-uni-modal-background: var(--van-uni-modal-background, $van-background-2);
+$van-uni-modal-header-font-weight: var(--van-uni-modal-header-font-weight, $van-font-bold);
+$van-uni-modal-header-line-height: var(--van-uni-modal-header-line-height, 24px);
+$van-uni-modal-header-padding-top: var(--van-uni-modal-header-padding-top, 26px);
+$van-uni-modal-message-padding: var(--van-uni-modal-message-padding, $van-padding-lg);
+$van-uni-modal-message-font-size: var(--van-uni-modal-message-font-size, $van-font-size-md);
+$van-uni-modal-message-line-height: var(--van-uni-modal-message-line-height, $van-line-height-md);
+$van-uni-modal-message-max-height: var(--van-uni-modal-message-max-height, 60vh);
+$van-uni-modal-has-title-message-text-color: var(--van-uni-modal-has-title-message-text-color, $van-gray-7);
+$van-uni-modal-has-title-message-padding-top: var(--van-uni-modal-has-title-message-padding-top, $van-padding-xs);
+$van-uni-modal-button-height: var(--van-uni-modal-button-height, 48px);
+$van-uni-modal-button-font-size: var(--van-uni-modal-button-font-size, $van-font-size-lg);
+$van-uni-modal-confirm-button-text-color: var(--van-uni-modal-confirm-button-text-color, $van-primary-color);
+
+uni-modal {
+  .uni-modal {
+    top: 45%;
+    width: $van-uni-modal-width;
+    overflow: hidden;
+    font-size: $van-uni-modal-font-size;
+    background: $van-uni-modal-background;
+    border-radius: $van-uni-modal-radius;
+    backface-visibility: hidden; // avoid blurry text after scale animation
+    transition: $van-uni-modal-transition;
+    transition-property: transform, opacity;
+    max-width: $van-uni-modal-width;
+
+    @media (max-width: 321px) {
+      max-width: $van-uni-modal-small-screen-width;
+    }
+
+    &__hd {
+      padding: $van-uni-modal-header-padding-top 0 0 0;
+
+      + .uni-modal__bd {
+        padding-top: $van-uni-modal-has-title-message-padding-top;
+        color: $van-uni-modal-has-title-message-text-color;
+      }
+    }
+
+    &__title {
+      font-size: $van-uni-modal-font-size;
+      color: $van-text-color;
+      font-weight: $van-uni-modal-header-font-weight;
+      line-height: $van-uni-modal-header-line-height;
+      text-align: center;
+    }
+
+    &__bd {
+      color: $van-text-color;
+      flex: 1;
+      max-height: $van-uni-modal-message-max-height;
+      padding: 26px $van-uni-modal-message-padding;
+      overflow-y: auto;
+      font-size: $van-uni-modal-message-font-size;
+      line-height: $van-uni-modal-message-line-height;
+
+      // allow newline character
+      white-space: pre-wrap;
+      text-align: center;
+      word-wrap: break-word;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    &__ft {
+      display: flex;
+      overflow: hidden;
+      user-select: none;
+      font-size: $van-uni-modal-button-font-size;
+      @extend .van-hairline--top;
+    }
+
+    &__btn {
+      flex: 1;
+      height: $van-uni-modal-button-height;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+
+      &_primary {
+        @extend .van-hairline--left;
+      }
+    }
+  }
+}

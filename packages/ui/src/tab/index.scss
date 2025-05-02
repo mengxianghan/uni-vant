@@ -1,0 +1,17 @@
+@import '../styles/variables';
+
+.van-tab {
+  &__panel {
+    &,
+    &--active {
+      flex-shrink: 0;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    &--inactive {
+      height: 0;
+      overflow: visible;
+    }
+  }
+}

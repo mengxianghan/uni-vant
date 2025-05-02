@@ -1,0 +1,35 @@
+{
+  "name": "uni-vant-ui",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "author": "mengxianghan",
+  "license": "MIT",
+  "keywords": [],
+  "sideEffects": [
+    "*.scss",
+    "*/src/**/*.vue"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "web-types": "./dist/web-types.json",
+  "vetur": {
+    "tags": "./dist/tags.json",
+    "attributes": "./dist/attributes.json"
+  },
+  "files": [
+    "attributes.json",
+    "dist",
+    "package.json",
+    "tags.json",
+    "web-types.json"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:web-types": "esno scripts/web-types.ts"
+  },
+  "peerDependencies": {
+    "lodash-es": "^4.17.21"
+  }
+}

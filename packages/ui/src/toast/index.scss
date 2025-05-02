@@ -1,0 +1,101 @@
+@import '../styles/variables';
+
+$van-toast-max-width: 70%;
+$van-toast-font-size: var(--van-toast-font-size, $van-font-size-md);
+$van-toast-text-color: var(--van-toast-text-color, $van-white);
+$van-toast-loading-icon-color: var(--van-toast-loading-icon-color, $van-white);
+$van-toast-line-height: var(--van-toast-line-height, $van-line-height-md);
+$van-toast-radius: var(--van-toast-radius, $van-radius-lg);
+$van-toast-background: var(--van-toast-background, rgba(0, 0, 0, 0.7));
+$van-toast-icon-size: var(--van-toast-icon-size, 36px);
+$van-toast-text-min-width: var(--van-toast-text-min-width, 96px);
+$van-toast-text-padding: var(--van-toast-text-padding, $van-padding-xs $van-padding-sm);
+$van-toast-default-padding: var(--van-toast-default-padding, $van-padding-md);
+$van-toast-default-width: var(--van-toast-default-width, 88px);
+$van-toast-default-min-height: var(--van-toast-default-min-height, 88px);
+$van-toast-position-top-distance: var(--van-toast-position-top-distance, 20%);
+$van-toast-position-bottom-distance: var(--van-toast-position-bottom-distance, 20%);
+
+.van-toast {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  transition: all $van-duration-fast;
+
+  // hack for avoid max-width when use left & fixed
+  width: $van-toast-default-width;
+  max-width: $van-toast-max-width;
+  min-height: $van-toast-default-min-height;
+  padding: $van-toast-default-padding;
+  color: $van-toast-text-color;
+  font-size: $van-toast-font-size;
+  line-height: $van-toast-line-height;
+
+  // allow newline character
+  white-space: pre-wrap;
+  word-break: break-all;
+  text-align: center;
+  background: $van-toast-background;
+  border-radius: $van-toast-radius;
+
+  &--break {
+    &-normal {
+      word-break: normal;
+      word-wrap: normal;
+    }
+
+    &-word {
+      word-break: normal;
+      word-wrap: break-word;
+    }
+  }
+
+  &--unclickable {
+    // lock scroll
+    overflow: hidden;
+    cursor: not-allowed;
+
+    // should not add pointer-events: none directly to body tag
+    // that will cause unexpected tap-highlight-color in mobile safari
+    * {
+      pointer-events: none;
+    }
+  }
+
+  &--text,
+  &--html {
+    width: fit-content;
+    max-width: none;
+    min-width: $van-toast-text-min-width;
+    min-height: 0;
+    padding: $van-toast-text-padding;
+
+    .van-toast__text {
+      margin-top: 0;
+    }
+  }
+
+  &--top {
+    top: $van-toast-position-top-distance;
+  }
+
+  &--bottom {
+    top: auto;
+    bottom: $van-toast-position-bottom-distance;
+  }
+
+  &__icon {
+    font-size: $van-toast-icon-size;
+  }
+
+  &__loading {
+    padding: $van-padding-base;
+    color: $van-toast-loading-icon-color;
+  }
+
+  &__text {
+    margin-top: $van-padding-xs;
+  }
+}

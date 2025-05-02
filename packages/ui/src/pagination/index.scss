@@ -1,0 +1,96 @@
+@import '../styles/variables';
+
+$van-pagination-height: var(--van-pagination-height, 40px);
+$van-pagination-font-size: var(--van-pagination-font-size, $van-font-size-md);
+$van-pagination-item-width: var(--van-pagination-item-width, 36px);
+$van-pagination-item-default-color: var(--van-pagination-item-default-color, $van-primary-color);
+$van-pagination-item-disabled-color: var(--van-pagination-item-disabled-color, $van-gray-7);
+$van-pagination-item-disabled-background: var(--van-pagination-item-disabled-background, $van-background);
+$van-pagination-background: var(--van-pagination-background, $van-background-2);
+$van-pagination-desc-color: var(--van-pagination-desc-color, $van-gray-7);
+$van-pagination-disabled-opacity: var(--van-pagination-disabled-opacity, $van-disabled-opacity);
+
+.van-pagination {
+  font-size: $van-pagination-font-size;
+  white-space: nowrap;
+
+  &__items {
+    display: flex;
+  }
+
+  &__item,
+  &__page-desc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__item {
+    flex: 1;
+    box-sizing: border-box;
+    min-width: $van-pagination-item-width;
+    height: $van-pagination-height;
+    color: $van-pagination-item-default-color;
+    background: $van-pagination-background;
+    cursor: pointer;
+    user-select: none;
+
+    &-button {
+      flex: 1;
+      height: 100%;
+      border: none;
+      padding: 0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &[disabled] {
+        cursor: not-allowed;
+      }
+    }
+
+    &:active {
+      color: $van-white;
+      background-color: $van-pagination-item-default-color;
+    }
+
+    &:not(:last-child)::after {
+      border-right-width: 0;
+    }
+
+    &--active {
+      color: $van-white;
+      background-color: $van-pagination-item-default-color;
+    }
+
+    &--page {
+      flex-grow: 0;
+    }
+
+    &--prev,
+    &--next {
+      padding: 0 $van-padding-base;
+      cursor: pointer;
+    }
+
+    &--border:first-child::after {
+      border-right-width: $van-border-width;
+    }
+
+    &--disabled {
+      &,
+      &:active {
+        color: $van-pagination-item-disabled-color;
+        background-color: $van-pagination-item-disabled-background;
+        opacity: $van-pagination-disabled-opacity;
+      }
+    }
+  }
+
+  &__page-desc {
+    flex: 1;
+    height: $van-pagination-height;
+    color: $van-pagination-desc-color;
+  }
+}

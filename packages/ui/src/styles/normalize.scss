@@ -1,0 +1,54 @@
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body,
+page {
+  font-family: $van-base-font;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+page,
+view,
+scroll-view,
+textarea,
+input {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+navigator {
+  text-decoration: none;
+}
+
+input,
+uni-input,
+textarea,
+uni-textarea {
+  color: inherit;
+  font: inherit;
+}
+
+navigator,
+input,
+uni-input,
+textarea,
+uni-textarea,
+[class*='van-'] {
+  &:focus {
+    outline: none;
+  }
+}
+
+image,
+video,
+audio {
+  vertical-align: middle;
+}

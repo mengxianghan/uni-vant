@@ -1,0 +1,154 @@
+@import '../styles/variables';
+
+$van-radio-size: var(--van-radio-size, 20px);
+$van-radio-dot-size: var(--van-radio-dot-size, 8px);
+$van-radio-border-color: var(--van-radio-border-color, $van-gray-5);
+$van-radio-duration: var(--van-radio-duration, $van-duration-fast);
+$van-radio-label-margin: var(--van-radio-label-margin, $van-padding-xs);
+$van-radio-label-color: var(--van-radio-label-color, $van-text-color);
+$van-radio-checked-icon-color: var(--van-radio-checked-icon-color, $van-primary-color);
+$van-radio-disabled-icon-color: var(--van-radio-disabled-icon-color, $van-gray-5);
+$van-radio-disabled-label-color: var(--van-radio-disabled-label-color, $van-text-color-3);
+$van-radio-disabled-background: var(--van-radio-disabled-background, $van-border-color);
+
+.van-radio {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  user-select: none;
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+
+  &--label-disabled {
+    cursor: default;
+  }
+
+  &--horizontal {
+    margin-right: $van-padding-sm;
+  }
+
+  &__icon {
+    flex: none;
+    height: 1em;
+    font-size: $van-radio-size;
+    line-height: 1em;
+    cursor: pointer;
+
+    .van-radio__icon-default,
+    .van-radio__icon-dot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 1.25em;
+      height: 1.25em;
+      color: transparent;
+      font-size: 0.8em;
+      border: 1px solid $van-radio-border-color;
+      transition-duration: $van-radio-duration;
+      transition-property: color, border-color, background-color;
+    }
+
+    .van-radio__icon-dot {
+      border-radius: 100%;
+      position: relative;
+    }
+
+    &--round {
+      .van-radio__icon-default {
+        border-radius: 100%;
+      }
+    }
+
+    // &--dot {
+    //     position: relative;
+    //     border-radius: 100%;
+    //     box-sizing: border-box;
+    //     width: 1.25em;
+    //     height: 1.25em;
+    //     // width: $van-radio-size;
+    //     // height: $van-radio-size;
+    //     border: 1px solid $van-radio-border-color;
+    //     transition-duration: $van-radio-duration;
+    //     transition-property: border-color;
+
+    //     &__icon {
+    //         position: absolute;
+    //         top: 50%;
+    //         left: 50%;
+    //         transform: translate(-50%, -50%);
+    //         border-radius: 100%;
+    //         height: calc(100% - $van-radio-dot-size);
+    //         width: calc(100% - $van-radio-dot-size);
+    //         transition-duration: $van-radio-duration;
+    //         transition-property: background-color;
+    //     }
+    // }
+
+    &--checked {
+      .van-radio__icon-default {
+        color: $van-white;
+        background-color: $van-radio-checked-icon-color;
+        border-color: $van-radio-checked-icon-color;
+      }
+
+      .van-radio__icon-dot {
+        border-color: $van-radio-checked-icon-color;
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 0.6em;
+          height: 0.6em;
+          background: $van-radio-checked-icon-color;
+          border-radius: inherit;
+          left: 50%;
+          top: 50%;
+          transform: translate3d(-50%, -50%, 0);
+        }
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+
+      .van-radio__icon-default,
+      .van-radio__icon-dot {
+        background-color: $van-radio-disabled-background;
+        border-color: $van-radio-disabled-icon-color;
+      }
+
+      .van-radio__icon--dot {
+        &::before {
+          background: currentColor;
+        }
+      }
+    }
+
+    &--disabled {
+      &.van-radio__icon--checked {
+        .van-radio__icon-default,
+        .van-radio__icon-dot {
+          color: $van-radio-disabled-icon-color;
+        }
+      }
+    }
+  }
+
+  &__label {
+    margin-left: $van-radio-label-margin;
+    color: $van-radio-label-color;
+    line-height: $van-radio-size;
+
+    &--left {
+      margin: 0 $van-radio-label-margin 0 0;
+      order: -1;
+    }
+
+    &--disabled {
+      color: $van-radio-disabled-label-color;
+    }
+  }
+}
