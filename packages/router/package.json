@@ -1,7 +1,7 @@
 {
   "name": "uni-vant-router",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于 uniapp 的路由",
   "author": {
     "name": "mengxianghan",
@@ -10,7 +10,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mengxianghan/uni-vant"
+    "url": "https://github.com/mengxianghan/uni-vant/tree/master/packages/router"
   },
   "bugs": {
     "url": "https://github.com/mengxianghan/uni-vant/issues"
@@ -24,11 +24,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.mjs"
     }
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "README.md",
