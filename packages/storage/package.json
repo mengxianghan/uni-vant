@@ -1,0 +1,46 @@
+{
+  "name": "uni-vant-storage",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "uniapp storage 缓存",
+  "author": {
+    "name": "mengxianghan",
+    "email": "mengxianghan@qq.com"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mengxianghan/uni-vant/tree/master/packages/storage"
+  },
+  "bugs": {
+    "url": "https://github.com/mengxianghan/uni-vant/issues"
+  },
+  "keywords": [
+    "uniapp",
+    "storage"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
+}
