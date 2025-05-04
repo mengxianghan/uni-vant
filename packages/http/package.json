@@ -47,8 +47,5 @@
   "peerDependencies": {
     "@uni-helper/axios-adapter": "1.5.2",
     "axios": "1.5.1"
-  },
-  "dependencies": {
-    "uni-vant-http": "^1.0.0"
   }
 }
