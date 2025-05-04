@@ -1,20 +1,59 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type {
+  DeleteOptions,
+  DownloadOptions,
+  GetOptions,
+  IOptions,
+  PostOptions,
+  PutOptions,
+  UploadOptions,
+} from './types'
 import { createUniAppAxiosAdapter } from '@uni-helper/axios-adapter'
 import axios from 'axios'
+import { omit } from 'lodash-es'
 import { extend } from './utils'
 
 class Http {
   #axiosInstance: AxiosInstance
 
-  constructor(options: AxiosRequestConfig) {
+  constructor(options: IOptions) {
     this.#axiosInstance = axios.create(
       extend(
         {
           adapter: createUniAppAxiosAdapter(),
         },
-        options || {},
+        // omit(options || {}, ['interceptors']),
+        omit(options || {}, ['interceptorRequest', 'interceptorRequestError', 'interceptorResponse', 'interceptorResponseError']),
       ),
     )
+
+    this.#axiosInstance.interceptors.request.use((request) => {
+      if (options.interceptorRequest) {
+        return options.interceptorRequest(request)
+      }
+
+      return request
+    }, (err) => {
+      if (options.interceptorRequestError) {
+        return options.interceptorRequestError(err)
+      }
+
+      return Promise.reject(err)
+    })
+
+    this.#axiosInstance.interceptors.response.use((response) => {
+      if (options.interceptorResponse) {
+        return options.interceptorResponse(response)
+      }
+
+      return response
+    }, (err) => {
+      if (options.interceptorResponseError) {
+        return options.interceptorResponseError(err)
+      }
+
+      return Promise.reject(err)
+    })
   }
 
   get instance() {
@@ -39,7 +78,7 @@ class Http {
     })
   }
 
-  get<T>(url = '', params = {}, getOptions?: Omit<AxiosRequestConfig, 'url' | 'method' | 'params'>): Promise<T> {
+  get<T>(url = '', params = {}, getOptions?: GetOptions): Promise<T> {
     return this.request<T>({
       ...(getOptions || {}),
       method: 'get',
@@ -48,7 +87,7 @@ class Http {
     })
   }
 
-  post<T>(url = '', data = {}, postOptions?: Omit<AxiosRequestConfig, 'url' | 'method' | 'data'>): Promise<T> {
+  post<T>(url = '', data = {}, postOptions?: PostOptions): Promise<T> {
     return this.request<T>({
       ...(postOptions || {}),
       method: 'post',
@@ -57,7 +96,7 @@ class Http {
     })
   }
 
-  put<T>(url: string, data = {}, putOptions?: Omit<AxiosRequestConfig, 'url' | 'method' | 'data'>): Promise<T> {
+  put<T>(url: string, data = {}, putOptions?: PutOptions): Promise<T> {
     return this.request<T>({
       ...(putOptions || {}),
       method: 'put',
@@ -66,25 +105,25 @@ class Http {
     })
   }
 
-  delete<T>(url: string, data = {}, deleteOptions?: Omit<AxiosRequestConfig, 'url' | 'method' | 'data'>): Promise<T> {
+  delete<T>(url: string, params = {}, deleteOptions?: DeleteOptions): Promise<T> {
     return this.request<T>({
       ...deleteOptions,
       method: 'delete',
       url,
-      data,
+      params,
     })
   }
 
-  upload<T>(url: string, data: Record<string, any>, uploadOptions?: Omit<AxiosRequestConfig, 'url' | 'method' | 'data'>): Promise<AxiosResponse<any>> {
+  upload<T>(url: string, formData: FormData, uploadOptions?: UploadOptions): Promise<AxiosResponse<any>> {
     return this.#axiosInstance.request<T>({
       ...(uploadOptions || {}),
       method: 'upload',
       url,
-      data,
+      data: formData,
     })
   }
 
-  download<T>(url: string, downloadOptions?: Omit<AxiosRequestConfig, 'url' | 'method'>): Promise<AxiosResponse<any>> {
+  download<T>(url: string, downloadOptions?: DownloadOptions): Promise<AxiosResponse<any>> {
     return this.#axiosInstance.request<T>({
       ...(downloadOptions || {}),
       method: 'download',
@@ -93,4 +132,4 @@ class Http {
   }
 }
 
-export const createHttp = (options: AxiosRequestConfig) => new Http(options)
+export const createHttp = (options: IOptions) => new Http(options)
