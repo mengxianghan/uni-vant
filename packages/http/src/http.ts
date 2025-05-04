@@ -3,6 +3,7 @@ import type {
   DeleteOptions,
   DownloadOptions,
   GetOptions,
+  IHttp,
   IOptions,
   PostOptions,
   PutOptions,
@@ -114,7 +115,7 @@ class Http {
     })
   }
 
-  upload<T>(url: string, formData: FormData, uploadOptions?: UploadOptions): Promise<AxiosResponse<any>> {
+  upload<T>(url: string, formData: FormData, uploadOptions?: UploadOptions): Promise<AxiosResponse<T>> {
     return this.#axiosInstance.request<T>({
       ...(uploadOptions || {}),
       method: 'upload',
@@ -123,7 +124,7 @@ class Http {
     })
   }
 
-  download<T>(url: string, downloadOptions?: DownloadOptions): Promise<AxiosResponse<any>> {
+  download<T>(url: string, downloadOptions?: DownloadOptions): Promise<AxiosResponse<T>> {
     return this.#axiosInstance.request<T>({
       ...(downloadOptions || {}),
       method: 'download',
@@ -132,4 +133,4 @@ class Http {
   }
 }
 
-export const createHttp = (options: IOptions) => new Http(options)
+export const createHttp = (options: IOptions): IHttp => new Http(options)

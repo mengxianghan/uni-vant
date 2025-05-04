@@ -22,3 +22,13 @@ export type DeleteOptions = Omit<AxiosRequestConfig, 'url' | 'method' | 'params'
 export type UploadOptions = Omit<AxiosRequestConfig, 'url' | 'method' | 'data'> & Omit<UniApp.UploadFileOption, 'url'>
 
 export type DownloadOptions = Omit<AxiosRequestConfig, 'url' | 'method'>
+
+export interface IHttp {
+  request: <T>(options: AxiosRequestConfig) => Promise<T>
+  get: <T>(url: string, options?: GetOptions) => Promise<T>
+  post: <T>(url: string, data?: any, options?: PostOptions) => Promise<T>
+  put: <T>(url: string, data?: any, options?: PutOptions) => Promise<T>
+  delete: <T>(url: string, options?: DeleteOptions) => Promise<T>
+  upload: <T>(url: string, formData: FormData, options?: UploadOptions) => Promise<AxiosResponse<T>>
+  download: <T>(url: string, options?: DownloadOptions) => Promise<AxiosResponse<T>>
+}
