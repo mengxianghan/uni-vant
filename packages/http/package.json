@@ -18,8 +18,7 @@
   "keywords": [
     "axios",
     "http",
-    "uniapp",
-    "uniapp-request"
+    "uniapp"
   ],
   "exports": {
     ".": {
