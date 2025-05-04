@@ -2,10 +2,9 @@
 
 ## 介绍
 
-uni-vant-storage 是基于 uni-app 的本地存储封装，基于 uni-app 的本地存储封装。
+uni-vant-storage 是基于 uni-app 的本地存储封装。
 
 ## 为什么重新封装
-uniapp 的缓存已经很简洁了，为什么还要重复造轮子？
 
 - 支持数据隔离。
 - 支持设置过期时间。
