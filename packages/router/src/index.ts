@@ -1,13 +1,13 @@
 export { createRouter, useRoute, useRouter } from './router'
 export type {
-  NavigateBackOptions,
-  NavigateToOptions,
+  INavigateBackOptions,
+  INavigateToOptions,
+  IRedirectToOptions,
+  IReLaunchOptions,
+  IRouteLocationNormalized,
+  IRouter,
+  IRouteRecord,
+  IRouterOptions,
+  ISwitchTabOptions,
   NavigationGuard,
-  RedirectToOptions,
-  ReLaunchOptions,
-  RouteLocationNormalized,
-  Router,
-  RouteRecord,
-  RouterOptions,
-  SwitchTabOptions,
 } from './types'

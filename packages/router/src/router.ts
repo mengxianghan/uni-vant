@@ -1,20 +1,18 @@
 import type { App } from 'vue'
 import type {
-  Engine,
-  NavigateBackOptions,
+  IEngine,
+  INavigateBackOptions,
+  INavigateToOptions,
+  IRedirectToOptions,
+  IReLaunchOptions,
+  IRouteLocationNormalized,
+  IRouter,
+  IRouteRecord,
+  IRouterOptions,
+  ISwitchTabOptions,
   NavigateLocationOptions,
-  NavigateOptions,
-  NavigateToOptions,
   NavigationGuard,
-  RedirectToOptions,
-  ReLaunchOptions,
-  RouteLocationNormalized,
-  Router,
-  RouteRecord,
-  RouterOptions,
-  SwitchTabOptions,
 } from './types'
-import { debounce } from 'lodash-es'
 import { inject, ref, unref } from 'vue'
 import {
   assign,
@@ -35,7 +33,7 @@ const defaultRouterOptions = {
   onLaunch: true,
 }
 
-export function createRouter(options: RouterOptions) {
+export function createRouter(options: IRouterOptions) {
   options = {
     ...defaultRouterOptions,
     ...options,
@@ -45,7 +43,7 @@ export function createRouter(options: RouterOptions) {
   const afterEachGuards = ref<NavigationGuard[]>([])
   const currentRoute = ref()
   const fromRoute = ref()
-  const matched = ref<RouteLocationNormalized[]>([])
+  const matched = ref<IRouteLocationNormalized[]>([])
   const isNavigateBack = ref(false)
 
   async function execBeforeGrade() {
@@ -56,51 +54,61 @@ export function createRouter(options: RouterOptions) {
     return runGuardQueue(afterEachGuards.value.map((guard: NavigationGuard) => guardToPromiseFn(guard, currentRoute.value, fromRoute.value)))
   }
 
-  function navigate(to: NavigateToOptions, navigateOptions?: NavigateOptions): void
+  function navigate(to: INavigateToOptions): void
 
-  function navigate(to: RedirectToOptions, navigateOptions?: NavigateOptions): void
+  function navigate(to: IRedirectToOptions): void
 
-  function navigate(to: NavigateBackOptions, navigateOptions?: NavigateOptions): void
+  function navigate(to: INavigateBackOptions): void
 
-  function navigate(to: ReLaunchOptions, navigateOptions?: NavigateOptions): void
+  function navigate(to: IReLaunchOptions): void
 
-  function navigate(to: SwitchTabOptions, navigateOptions?: NavigateOptions): void
+  function navigate(to: ISwitchTabOptions): void
 
-  function navigate(to: NavigateLocationOptions, navigateOptions?: NavigateOptions) {
-    const isNavigate = (navigateOptions && 'isNavigate' in navigateOptions) ? navigateOptions.isNavigate : true
-    const engine: Engine = (to?.engine || uni)
-    const navigateType = navigateOptions?.navigateType || 'navigateTo'
+  function navigate(to: NavigateLocationOptions) {
+    const isNavigate = ('isNavigate' in to) ? to.isNavigate : true
+    const engine: IEngine = (to?.engine || uni)
+    const openType = to?.openType || 'navigateTo'
     const url: string = Reflect.get(to, 'path') || Reflect.get(to, 'url') || ''
 
-    let route: RouteLocationNormalized
+    let route: IRouteLocationNormalized
 
-    if (navigateType === 'navigateBack') {
+    if (openType === 'navigateBack') {
       route = matched.value.pop()!
     }
     else {
       // 将 to 转换成标准的路由对象
-      const { path, hash, query, pathname } = parseUrl(stringifyUrl({ path: url as string, query: Reflect.get(to, 'query') || {} }))
+      const { path, hash, query, pathname } = parseUrl(stringifyUrl({
+        path: url as string,
+        query: Reflect.get(to, 'query') || {},
+      }))
+
+      // 判断路由是否存在
+      const index = routes.value.findIndex((item: IRouteRecord) => item.path === pathname)
+      if (index < 0) {
+        console.warn(`${url} 路由不存在！`)
+        return
+      }
+
       route = {
         fullPath: path,
         hash,
         path: pathname,
         query: query as Record<string, unknown>,
-        navigateType,
+        openType,
+        meta: Reflect.get(routes.value[index], 'meta') || {},
       }
     }
 
-    // 判断路由是否存在
-    if (routes.value.findIndex((item: RouteRecord) => item.path === route?.path) < 0) {
-      console.warn(`${url} 路由不存在！`)
-      return
-    }
-
-    // 根据 navigateType 更新 matched、fromRoute、currentRoute
-    switch (navigateType) {
-      case 'navigateBack':
+    // 根据 openType 更新 matched、fromRoute、currentRoute
+    switch (openType) {
+      case 'navigateBack': {
+        const delta = (Reflect.get(to, 'delta') || 1) as number
         fromRoute.value = currentRoute.value
-        currentRoute.value = matched.value.length ? matched.value.slice(<number>('delta' in to ? to.delta : 1) * -1)[0] : undefined
+        currentRoute.value = matched.value.length
+          ? matched.value.slice(delta * -1)[0]
+          : undefined
         break
+      }
       case 'reLaunch':
         fromRoute.value = null
         matched.value = [route]
@@ -115,39 +123,44 @@ export function createRouter(options: RouterOptions) {
 
     execBeforeGrade()
       .then((data) => {
-        // 如果不是首次启动，则跳转
-        if (isNavigate !== false) {
-          if (isObject(data)) {
-            navigate(data)
-            return
-          }
-          if (isFunction(data)) {
-            data()
-            return
-          }
-          if (isString(data)) {
-            navigate({ url: data })
-            return
-          }
-
-          // onLaunch || onUnload 时不需要执行跳转
-          if (!isNavigate) {
-            return
-          }
-
-          let _options
-          switch (navigateOptions?.navigateType) {
-            case 'navigateBack':
-              _options = assign({ delta: 1 }, to)
-              break
-            default:
-              _options = assign(to, { url: currentRoute.value?.fullPath })
-              break
-          }
-          engine[navigateType](_options)
+        // 如果被拦截，还原路由
+        if (isObject(data) || isFunction(data) || isString(data)) {
+          matched.value.pop()
+          // fromRoute.value = matched.value[matched.value.length - 1]
         }
 
-        execAfterGrade().then(() => {})
+        if (isObject(data)) {
+          navigate(data)
+          return
+        }
+        if (isFunction(data)) {
+          data()
+          return
+        }
+        if (isString(data)) {
+          navigate({ path: data })
+          return
+        }
+
+        // onLaunch || onUnload 时不需要执行跳转
+        if (!isNavigate) {
+          return
+        }
+
+        let _options
+        switch (to?.openType) {
+          case 'navigateBack':
+            _options = assign({ delta: 1 }, to)
+            break
+          default:
+            _options = assign(to, { url: currentRoute.value?.fullPath })
+            break
+        }
+
+        engine[openType](_options)
+
+        execAfterGrade().then(() => {
+        })
       })
       .catch((err) => {
         console.warn(err.message)
@@ -162,8 +175,8 @@ export function createRouter(options: RouterOptions) {
     afterEachGuards.value.push(guard)
   }
 
-  function addRoute(route: RouteRecord) {
-    if (routes.value.findIndex((item: RouteRecord) => item.path === route.path) > -1) {
+  function addRoute(route: IRouteRecord) {
+    if (routes.value.findIndex((item: IRouteRecord) => item.path === route.path) > -1) {
       console.warn(`${route.path} 路由已存在，请勿重复添加！`)
       return
     }
@@ -179,21 +192,20 @@ export function createRouter(options: RouterOptions) {
     beforeEach,
     afterEach,
 
-    navigateTo: (to: NavigateToOptions) => navigate(to),
-    redirectTo: (to: RedirectToOptions) => navigate(to, { navigateType: 'redirectTo' }),
-    reLaunch: (to: ReLaunchOptions) => navigate(to, { navigateType: 'reLaunch' }),
-    switchTab: (to: SwitchTabOptions) => navigate(to, { navigateType: 'switchTab' }),
-    navigateBack: (to?: NavigateBackOptions) => {
+    navigateTo: (to: Omit<INavigateToOptions, 'isNavigate' | 'openType'>) => navigate(to),
+    redirectTo: (to: Omit<IRedirectToOptions, 'isNavigate' | 'openType'>) => navigate({ ...to, openType: 'redirectTo' }),
+    reLaunch: (to: Omit<IReLaunchOptions, 'isNavigate' | 'openType'>) => navigate({ ...to, openType: 'reLaunch' }),
+    switchTab: (to: Omit<ISwitchTabOptions, 'isNavigate' | 'openType'>) => navigate({ ...to, openType: 'switchTab' }),
+    navigateBack: (to?: Omit<INavigateBackOptions, 'isNavigate' | 'openType'>) => {
       isNavigateBack.value = true
-      navigate(to || {}, { navigateType: 'navigateBack' })
+      navigate({ ...(to || {}), openType: 'navigateBack' })
     },
 
     install(app: App) {
-      const router = this
-      app.config.globalProperties.$router = router
+      app.config.globalProperties.$router = this
 
-      app.provide(ROUTER_KEY, router)
-      app.provide(ROUTE_KEY, currentRoute)
+      app.provide(ROUTER_KEY, this)
+      app.provide(ROUTE_KEY, this.currentRoute)
 
       app.mixin({
         onLaunch: (launchOptions: UniApp.LaunchOptionsApp) => {
@@ -201,27 +213,25 @@ export function createRouter(options: RouterOptions) {
             navigate(
               {
                 path: `/${launchOptions.path}`,
-                url: '/aaa',
+                url: `/${launchOptions.path}`,
                 query: launchOptions.query as Record<string, unknown>,
-              },
-              {
-                navigateType: 'reLaunch',
+                openType: 'reLaunch',
                 isNavigate: false,
               },
             )
           }
         },
-        onUnload: debounce(() => {
+        onUnload: () => {
           if (!isNavigateBack.value) {
-            navigate({}, { navigateType: 'navigateBack', isNavigate: false })
+            navigate({ openType: 'navigateBack', isNavigate: false })
           }
           isNavigateBack.value = false
-        }, 500),
+        },
       })
     },
   }
 }
 
-export const useRouter = (): Router => inject(ROUTER_KEY) as Router
+export const useRouter = (): IRouter => inject(ROUTER_KEY) as IRouter
 
-export const useRoute = (): RouteLocationNormalized => unref(inject(ROUTE_KEY)) as RouteLocationNormalized
+export const useRoute = (): IRouteLocationNormalized => unref(inject(ROUTE_KEY)) as IRouteLocationNormalized

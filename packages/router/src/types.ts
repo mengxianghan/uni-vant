@@ -1,17 +1,17 @@
 import type { Ref } from 'vue'
 
-export type NavigateType = 'navigateTo' | 'redirectTo' | 'reLaunch' | 'switchTab' | 'navigateBack'
+export type IOpenType = 'navigateTo' | 'redirectTo' | 'reLaunch' | 'switchTab' | 'navigateBack'
 
-export interface RouteLocationNormalized {
+export interface IRouteLocationNormalized {
   fullPath?: string | string.PageURIString
   hash?: string
   meta?: Record<string | number | symbol, unknown>
   path: string
   query?: Record<string, unknown>
-  navigateType?: NavigateType
+  openType?: IOpenType
 }
 
-export interface Engine {
+export interface IEngine {
   navigateTo: (options: any) => void
   navigateBack: (options: any) => void
   switchTab: (options: any) => void
@@ -19,70 +19,76 @@ export interface Engine {
   reLaunch: (options: any) => void
 }
 
-export interface RouteRecord {
+export interface IRouteRecord {
   path: string
   meta?: Record<string, unknown>
 }
 
-export interface RouterOptions {
-  routes: RouteRecord[]
+export interface IRouterOptions {
+  routes: IRouteRecord[]
   onLaunch?: boolean
 }
 
-export interface NavigationGuardNext {
+export interface INavigationGuardNext {
   (): void
   (valid: boolean): void
   (valid: NavigateLocationOptions): void
 }
 
-export type NavigationGuard = (to: RouteLocationNormalized, from: RouteLocationNormalized | null, next: NavigationGuardNext) => void | Promise<void>
+export type NavigationGuard = (to: IRouteLocationNormalized, from: IRouteLocationNormalized | null, next: INavigationGuardNext) => void | Promise<void>
 
 export type Lazy<T> = () => Promise<T>
 
-export interface NavigateToOptions extends UniApp.NavigateToOptions {
-  query?: Record<string, unknown>
-  engine?: Engine
-}
-
-export interface RedirectToOptions extends UniApp.RedirectToOptions {
+export interface INavigateBaseOptions {
   path?: string
-  query?: Record<string, unknown>
-  engine?: Engine
-}
-
-export interface ReLaunchOptions extends UniApp.ReLaunchOptions {
-  path?: string
-  query?: Record<string, unknown>
-  engine?: Engine
-}
-
-export interface SwitchTabOptions extends UniApp.SwitchTabOptions {
-  path?: string
-  engine?: Engine
-}
-
-export interface NavigateBackOptions extends UniApp.NavigateBackOptions {
-  path?: string
-  engine?: Engine
-}
-
-export type NavigateLocationOptions = NavigateToOptions | RedirectToOptions | ReLaunchOptions | SwitchTabOptions | NavigateBackOptions
-
-export interface NavigateOptions {
-  navigateType?: NavigateType
+  engine?: IEngine
   isNavigate?: boolean
+  openType?: IOpenType
 }
 
-export interface Router {
-  currentRoute: Readonly<Ref<RouteLocationNormalized | undefined>>
-  matched: Readonly<Ref<RouteLocationNormalized[]>>
-  addRoute: (route: RouteRecord) => void
-  navigateTo: (to: NavigateToOptions) => void
-  redirectTo: (to: RedirectToOptions) => void
-  reLaunch: (to: ReLaunchOptions) => void
-  switchTab: (to: SwitchTabOptions) => void
-  navigateBack: (to?: NavigateBackOptions) => void
+export interface INavigateToOptions extends UniApp.NavigateToOptions, INavigateBaseOptions {
+  query?: Record<string, unknown>
+}
+
+export interface IRedirectToOptions extends UniApp.RedirectToOptions, INavigateBaseOptions {
+  query?: Record<string, unknown>
+}
+
+export interface IReLaunchOptions extends UniApp.ReLaunchOptions, INavigateBaseOptions {
+  query?: Record<string, unknown>
+}
+
+export interface ISwitchTabOptions extends UniApp.SwitchTabOptions, INavigateBaseOptions {
+}
+
+export interface INavigateBackOptions extends UniApp.NavigateBackOptions, INavigateBaseOptions {
+}
+
+export type NavigateLocationOptions = INavigateToOptions | IRedirectToOptions | IReLaunchOptions | ISwitchTabOptions | INavigateBackOptions
+
+export interface IRouter {
+  currentRoute: Readonly<Ref<IRouteLocationNormalized | undefined>>
+  matched: Readonly<Ref<IRouteLocationNormalized[]>>
+  addRoute: (route: IRouteRecord) => void
+  navigateTo: (to: INavigateToOptions) => void
+  redirectTo: (to: IRedirectToOptions) => void
+  reLaunch: (to: IReLaunchOptions) => void
+  switchTab: (to: ISwitchTabOptions) => void
+  navigateBack: (to?: INavigateBackOptions) => void
   beforeEach: (guard: NavigationGuard) => void
   afterEach: (guard: NavigationGuard) => void
-  install: (App: any) => void
+  install?: (App: any) => void
+}
+
+export interface IUrl {
+  protocol: string
+  slashes: boolean
+  host: string
+  hostname: string
+  port: string
+  pathname: string
+  path: string
+  hash: string
+  query: string | Record<string, unknown>
+  search: string
 }

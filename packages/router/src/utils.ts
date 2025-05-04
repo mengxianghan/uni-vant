@@ -1,12 +1,13 @@
 import type {
+  INavigationGuardNext,
+  IRouteLocationNormalized,
+  IUrl,
   Lazy,
   NavigationGuard,
-  NavigationGuardNext,
-  RouteLocationNormalized,
 } from './types'
 import { assign } from 'lodash-es'
 
-export { assign, cloneDeep, debounce, last, omit, pick } from 'lodash-es'
+export { assign, cloneDeep, last, omit, pick } from 'lodash-es'
 
 export const isDef = (value: unknown) => value !== undefined && value !== null && value !== ''
 
@@ -18,20 +19,7 @@ export const isNumber = (value: unknown) => typeof value === 'number'
 
 export const isFunction = (value: unknown) => typeof value === 'function'
 
-interface UrlObj {
-  protocol: string
-  slashes: boolean
-  host: string
-  hostname: string
-  port: string
-  pathname: string
-  path: string
-  hash: string
-  query: string | Record<string, unknown>
-  search: string
-}
-
-export function parseUrl(urlStr: string, options?: { queryString: boolean }): UrlObj {
+export function parseUrl(urlStr: string, options?: { queryString: boolean }): IUrl {
   const urlObj = {
     protocol: '',
     slashes: false,
@@ -67,7 +55,7 @@ export function parseUrl(urlStr: string, options?: { queryString: boolean }): Ur
   return urlObj
 }
 
-export function stringifyUrl(urlObj: Partial<UrlObj>) {
+export function stringifyUrl(urlObj: Partial<IUrl>) {
   let urlStr = ''
 
   const { pathname: _pathname = '', query: _query = {}, hash: _hash = '' } = parseUrl(urlObj?.path || '', { queryString: false })
@@ -109,9 +97,9 @@ function parseQuery(queryStr: string): Record<string, unknown> {
   }, {})
 }
 
-export function guardToPromiseFn(guard: NavigationGuard, to: RouteLocationNormalized, from: RouteLocationNormalized | null) {
+export function guardToPromiseFn(guard: NavigationGuard, to: IRouteLocationNormalized, from: IRouteLocationNormalized | null) {
   return () => new Promise((resolve, reject) => {
-    const next: NavigationGuardNext = (valid?) => {
+    const next: INavigationGuardNext = (valid?) => {
       if (valid === false) {
         reject(new Error('导航终止'))
       }
