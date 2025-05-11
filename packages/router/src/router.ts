@@ -1,3 +1,4 @@
+import type { InjectionKey } from '@vue/runtime-core'
 import type { App } from 'vue'
 import type {
   IEngine,
@@ -16,6 +17,7 @@ import type {
 import { inject, ref, unref } from 'vue'
 import {
   assign,
+  checkBeforeGradeData,
   guardToPromiseFn,
   isFunction,
   isObject,
@@ -25,15 +27,15 @@ import {
   stringifyUrl,
 } from '../src/utils'
 
-const ROUTER_KEY = Symbol('router')
-const ROUTE_KEY = Symbol('route')
+const ROUTER_KEY = Symbol('router') as InjectionKey<IRouter>
+const ROUTE_KEY = Symbol('route') as InjectionKey<IRouteLocationNormalized>
 
 const defaultRouterOptions = {
   routes: [],
   onLaunch: true,
 }
 
-export function createRouter(options: IRouterOptions) {
+export function createRouter(options: IRouterOptions): IRouter {
   options = {
     ...defaultRouterOptions,
     ...options,
@@ -45,6 +47,8 @@ export function createRouter(options: IRouterOptions) {
   const fromRoute = ref()
   const matched = ref<IRouteLocationNormalized[]>([])
   const isNavigateBack = ref(false)
+  const isLaunchExecuted = ref(false)
+  const isHotLaunchExecuted = ref(false)
 
   async function execBeforeGrade() {
     return runGuardQueue(beforeEachGuards.value.map((guard: NavigationGuard) => guardToPromiseFn(guard, currentRoute.value, fromRoute.value)))
@@ -124,25 +128,26 @@ export function createRouter(options: IRouterOptions) {
     execBeforeGrade()
       .then((data) => {
         // 如果被拦截，还原路由
-        if (isObject(data) || isFunction(data) || isString(data)) {
+        if (checkBeforeGradeData(data)) {
           matched.value.pop()
-          // fromRoute.value = matched.value[matched.value.length - 1]
         }
 
         if (isObject(data)) {
           navigate(data)
           return
         }
+
         if (isFunction(data)) {
           data()
           return
         }
+
         if (isString(data)) {
           navigate({ path: data })
           return
         }
 
-        // onLaunch || onUnload 时不需要执行跳转
+        // 不需要执行跳转
         if (!isNavigate) {
           return
         }
@@ -175,6 +180,43 @@ export function createRouter(options: IRouterOptions) {
     afterEachGuards.value.push(guard)
   }
 
+  function launch(launchOptions: UniApp.LaunchOptionsApp) {
+    if (!isLaunchExecuted.value) {
+      isLaunchExecuted.value = true
+      isHotLaunchExecuted.value = true
+
+      navigate(
+        {
+          path: `/${launchOptions.path}`,
+          url: `/${launchOptions.path}`,
+          query: launchOptions.query as Record<string, unknown>,
+          openType: 'reLaunch',
+          isNavigate: false,
+        },
+      )
+    }
+  }
+
+  function hotLaunch(hotLaunchOptions: UniApp.LaunchOptionsApp) {
+    if (!isHotLaunchExecuted.value) {
+      isHotLaunchExecuted.value = true
+
+      navigate(
+        {
+          path: `/${hotLaunchOptions.path}`,
+          url: `/${hotLaunchOptions.path}`,
+          query: hotLaunchOptions.query as Record<string, unknown>,
+          openType: 'reLaunch',
+          isNavigate: false,
+        },
+      )
+    }
+  }
+
+  function unload() {
+    isHotLaunchExecuted.value = false
+  }
+
   function addRoute(route: IRouteRecord) {
     if (routes.value.findIndex((item: IRouteRecord) => item.path === route.path) > -1) {
       console.warn(`${route.path} 路由已存在，请勿重复添加！`)
@@ -183,11 +225,23 @@ export function createRouter(options: IRouterOptions) {
     routes.value.push(route)
   }
 
+  function removeRoute(path: string) {
+    const index = routes.value.findIndex((item: IRouteRecord) => item.path === path)
+
+    if (index < 0) {
+      console.warn(`${path} 路由不存在`)
+      return
+    }
+
+    routes.value.splice(index, 1)
+  }
+
   return {
     currentRoute,
     matched,
 
     addRoute,
+    removeRoute,
 
     beforeEach,
     afterEach,
@@ -201,6 +255,10 @@ export function createRouter(options: IRouterOptions) {
       navigate({ ...(to || {}), openType: 'navigateBack' })
     },
 
+    launch,
+    hotLaunch,
+    unload,
+
     install(app: App) {
       app.config.globalProperties.$router = this
 
@@ -208,19 +266,19 @@ export function createRouter(options: IRouterOptions) {
       app.provide(ROUTE_KEY, this.currentRoute)
 
       app.mixin({
-        onLaunch: (launchOptions: UniApp.LaunchOptionsApp) => {
-          if (options.onLaunch) {
-            navigate(
-              {
-                path: `/${launchOptions.path}`,
-                url: `/${launchOptions.path}`,
-                query: launchOptions.query as Record<string, unknown>,
-                openType: 'reLaunch',
-                isNavigate: false,
-              },
-            )
-          }
-        },
+        // onLaunch: (launchOptions: UniApp.LaunchOptionsApp) => {
+        //   if (options.onLaunch) {
+        //     navigate(
+        //       {
+        //         path: `/${launchOptions.path}`,
+        //         url: `/${launchOptions.path}`,
+        //         query: launchOptions.query as Record<string, unknown>,
+        //         openType: 'reLaunch',
+        //         isNavigate: false,
+        //       },
+        //     )
+        //   }
+        // },
         onUnload: () => {
           if (!isNavigateBack.value) {
             navigate({ openType: 'navigateBack', isNavigate: false })

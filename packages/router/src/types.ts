@@ -1,14 +1,14 @@
-import type { Ref } from 'vue'
+import type { App, Ref } from 'vue'
 
 export type IOpenType = 'navigateTo' | 'redirectTo' | 'reLaunch' | 'switchTab' | 'navigateBack'
 
 export interface IRouteLocationNormalized {
-  fullPath?: string | string.PageURIString
-  hash?: string
-  meta?: Record<string | number | symbol, unknown>
+  fullPath: string | string.PageURIString
+  hash: string
+  meta: Record<string | number | symbol, unknown>
   path: string
-  query?: Record<string, unknown>
-  openType?: IOpenType
+  query: Record<string, unknown>
+  openType: IOpenType
 }
 
 export interface IEngine {
@@ -26,7 +26,7 @@ export interface IRouteRecord {
 
 export interface IRouterOptions {
   routes: IRouteRecord[]
-  onLaunch?: boolean
+  // onLaunch?: boolean
 }
 
 export interface INavigationGuardNext {
@@ -70,6 +70,7 @@ export interface IRouter {
   currentRoute: Readonly<Ref<IRouteLocationNormalized | undefined>>
   matched: Readonly<Ref<IRouteLocationNormalized[]>>
   addRoute: (route: IRouteRecord) => void
+  removeRoute: (path: string) => void
   navigateTo: (to: INavigateToOptions) => void
   redirectTo: (to: IRedirectToOptions) => void
   reLaunch: (to: IReLaunchOptions) => void
@@ -77,7 +78,10 @@ export interface IRouter {
   navigateBack: (to?: INavigateBackOptions) => void
   beforeEach: (guard: NavigationGuard) => void
   afterEach: (guard: NavigationGuard) => void
-  install?: (App: any) => void
+  launch: (options: UniApp.LaunchOptionsApp) => void
+  hotLaunch: (options: UniApp.LaunchOptionsApp) => void
+  unload: () => void
+  install: (app: App) => void
 }
 
 export interface IUrl {

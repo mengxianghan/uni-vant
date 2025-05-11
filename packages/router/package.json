@@ -1,7 +1,7 @@
 {
   "name": "uni-vant-router",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "基于 uniapp 的路由",
   "author": {
     "name": "mengxianghan",

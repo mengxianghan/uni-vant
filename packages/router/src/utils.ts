@@ -137,3 +137,7 @@ export function runGuardQueue(guards: Lazy<any>[]): Promise<any> {
     Promise.resolve(),
   )
 }
+
+export function checkBeforeGradeData(data: unknown) {
+  return isObject(data) || isFunction(data) || isString(data)
+}
