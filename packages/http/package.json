@@ -44,7 +44,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@uni-helper/axios-adapter": "1.5.2",
     "axios": "1.5.1"
   }
