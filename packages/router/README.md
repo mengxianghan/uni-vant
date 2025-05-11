@@ -22,7 +22,6 @@ export const router = createRouter({
       meta: {}
     }
   ],
-  onLaunch: true // 如果需要在 launch 中启动路由，则设置为 true
 })
 ```
 
@@ -96,3 +95,30 @@ router.afterEach((to, from)=>{
 })
 ```
 
+## 启动拦截
+
+修改 `App.vue` 
+
+```javascript
+import { useRouter } from 'uni-vant-router'
+import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
+
+const router = useRouter()
+
+onLaunch((options)=>{
+  // 冷启动拦截
+  router.launch(options)
+})
+
+onShow((options)=>{
+  // 热启动拦截
+  router.hotLaunch()
+})
+
+onHide(()=>{
+  // 一定要添加这一行，否则无法触发热启动
+  router.unload()
+})
+```
+
+虽然 `uni-vant-router` 支持热启动，但是由于 `uni-app` 的限制，在热启动时无法拦截页面中发送的请求，因此需要在对应页面中单独处理。
