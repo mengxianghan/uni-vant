@@ -1,7 +1,7 @@
 {
   "name": "uni-vant-http",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于 axios 的 uniapp 请求库",
   "author": {
     "name": "mengxianghan",
@@ -44,7 +44,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@uni-helper/axios-adapter": "1.5.2",
     "axios": "1.5.1"
   }
