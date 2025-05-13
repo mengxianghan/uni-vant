@@ -106,12 +106,12 @@ class Http {
     })
   }
 
-  delete<T>(url: string, params = {}, deleteOptions?: DeleteOptions): Promise<T> {
+  delete<T>(url: string, data = {}, deleteOptions?: DeleteOptions): Promise<T> {
     return this.request<T>({
       ...deleteOptions,
       method: 'delete',
       url,
-      params,
+      data,
     })
   }
 

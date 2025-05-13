@@ -28,7 +28,7 @@ export interface IHttp {
   get: <T>(url: string, params?: any, options?: GetOptions) => Promise<T>
   post: <T>(url: string, data?: any, options?: PostOptions) => Promise<T>
   put: <T>(url: string, data?: any, options?: PutOptions) => Promise<T>
-  delete: <T>(url: string, options?: DeleteOptions) => Promise<T>
+  delete: <T>(url: string, data?: any, options?: DeleteOptions) => Promise<T>
   upload: <T>(url: string, formData: FormData, options?: UploadOptions) => Promise<AxiosResponse<T>>
   download: <T>(url: string, options?: DownloadOptions) => Promise<AxiosResponse<T>>
 }
