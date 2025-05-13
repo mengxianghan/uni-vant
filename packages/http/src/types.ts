@@ -25,7 +25,7 @@ export type DownloadOptions = Omit<AxiosRequestConfig, 'url' | 'method'>
 
 export interface IHttp {
   request: <T>(options: AxiosRequestConfig) => Promise<T>
-  get: <T>(url: string, options?: GetOptions) => Promise<T>
+  get: <T>(url: string, params?: any, options?: GetOptions) => Promise<T>
   post: <T>(url: string, data?: any, options?: PostOptions) => Promise<T>
   put: <T>(url: string, data?: any, options?: PutOptions) => Promise<T>
   delete: <T>(url: string, options?: DeleteOptions) => Promise<T>
