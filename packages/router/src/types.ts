@@ -39,29 +39,32 @@ export type NavigationGuard = (to: IRouteLocationNormalized, from: IRouteLocatio
 
 export type Lazy<T> = () => Promise<T>
 
+type Query = Record<string, unknown>
+
 export interface INavigateBaseOptions {
-  path?: string
+  path: string
   engine?: IEngine
   isNavigate?: boolean
   openType?: IOpenType
 }
 
-export interface INavigateToOptions extends UniApp.NavigateToOptions, INavigateBaseOptions {
-  query?: Record<string, unknown>
+export interface INavigateToOptions extends Omit<UniApp.NavigateToOptions, 'url'>, INavigateBaseOptions {
+  query?: Query
 }
 
-export interface IRedirectToOptions extends UniApp.RedirectToOptions, INavigateBaseOptions {
-  query?: Record<string, unknown>
+export interface IRedirectToOptions extends Omit<UniApp.RedirectToOptions, 'url'>, INavigateBaseOptions {
+  query?: Query
 }
 
-export interface IReLaunchOptions extends UniApp.ReLaunchOptions, INavigateBaseOptions {
-  query?: Record<string, unknown>
+export interface IReLaunchOptions extends Omit<UniApp.ReLaunchOptions, 'url'>, INavigateBaseOptions {
+  query?: Query
 }
 
-export interface ISwitchTabOptions extends UniApp.SwitchTabOptions, INavigateBaseOptions {
+export interface ISwitchTabOptions extends Omit<UniApp.SwitchTabOptions, 'url'>, INavigateBaseOptions {
+  query?: Query
 }
 
-export interface INavigateBackOptions extends UniApp.NavigateBackOptions, INavigateBaseOptions {
+export interface INavigateBackOptions extends UniApp.NavigateBackOptions, Omit<INavigateBaseOptions, 'path'> {
 }
 
 export type NavigateLocationOptions = INavigateToOptions | IRedirectToOptions | IReLaunchOptions | ISwitchTabOptions | INavigateBackOptions
