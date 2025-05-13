@@ -188,7 +188,6 @@ export function createRouter(options: IRouterOptions): IRouter {
       navigate(
         {
           path: `/${launchOptions.path}`,
-          url: `/${launchOptions.path}`,
           query: launchOptions.query as Record<string, unknown>,
           openType: 'reLaunch',
           isNavigate: false,
@@ -204,7 +203,6 @@ export function createRouter(options: IRouterOptions): IRouter {
       navigate(
         {
           path: `/${hotLaunchOptions.path}`,
-          url: `/${hotLaunchOptions.path}`,
           query: hotLaunchOptions.query as Record<string, unknown>,
           openType: 'reLaunch',
           isNavigate: false,
