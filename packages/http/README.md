@@ -128,11 +128,11 @@ request(options)
 
 get(url, params, options)
 
-post(url, body, options)
+post(url, data, options)
 
-put(url, body, options)
+put(url, data, options)
 
-delete(url, params, options)
+delete(url, data, options)
 
 upload(url, formData, options)
 

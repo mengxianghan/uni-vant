@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
-export interface IOptions extends AxiosRequestConfig {
+export interface IHttpOptions extends AxiosRequestConfig {
   // 请求拦截
   interceptorRequest?: (request: InternalAxiosRequestConfig) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>
   // 请求拦截 catch
@@ -25,10 +25,10 @@ export type DownloadOptions = Omit<AxiosRequestConfig, 'url' | 'method'>
 
 export interface IHttp {
   request: <T>(options: AxiosRequestConfig) => Promise<T>
-  get: <T>(url: string, options?: GetOptions) => Promise<T>
+  get: <T>(url: string, params?: any, options?: GetOptions) => Promise<T>
   post: <T>(url: string, data?: any, options?: PostOptions) => Promise<T>
   put: <T>(url: string, data?: any, options?: PutOptions) => Promise<T>
-  delete: <T>(url: string, options?: DeleteOptions) => Promise<T>
+  delete: <T>(url: string, data?: any, options?: DeleteOptions) => Promise<T>
   upload: <T>(url: string, formData: FormData, options?: UploadOptions) => Promise<AxiosResponse<T>>
   download: <T>(url: string, options?: DownloadOptions) => Promise<AxiosResponse<T>>
 }

@@ -4,7 +4,7 @@ import type {
   DownloadOptions,
   GetOptions,
   IHttp,
-  IOptions,
+  IHttpOptions,
   PostOptions,
   PutOptions,
   UploadOptions,
@@ -17,7 +17,7 @@ import { extend } from './utils'
 class Http {
   #axiosInstance: AxiosInstance
 
-  constructor(options: IOptions) {
+  constructor(options: IHttpOptions) {
     this.#axiosInstance = axios.create(
       extend(
         {
@@ -106,12 +106,12 @@ class Http {
     })
   }
 
-  delete<T>(url: string, params = {}, deleteOptions?: DeleteOptions): Promise<T> {
+  delete<T>(url: string, data = {}, deleteOptions?: DeleteOptions): Promise<T> {
     return this.request<T>({
       ...deleteOptions,
       method: 'delete',
       url,
-      params,
+      data,
     })
   }
 
@@ -133,4 +133,4 @@ class Http {
   }
 }
 
-export const createHttp = (options: IOptions): IHttp => new Http(options)
+export const createHttp = (options: IHttpOptions): IHttp => new Http(options)
