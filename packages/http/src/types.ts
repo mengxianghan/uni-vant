@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
-export interface IOptions extends AxiosRequestConfig {
+export interface IHttpOptions extends AxiosRequestConfig {
   // 请求拦截
   interceptorRequest?: (request: InternalAxiosRequestConfig) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>
   // 请求拦截 catch
