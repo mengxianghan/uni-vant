@@ -12,6 +12,7 @@ import type {
   IRouterOptions,
   ISwitchTabOptions,
   NavigateLocationOptions,
+  NavigateNormalized,
   NavigationGuard,
 } from './types'
 import { inject, ref, unref } from 'vue'
@@ -73,6 +74,7 @@ export function createRouter(options: IRouterOptions): IRouter {
     const engine: IEngine = (to?.engine || uni)
     const openType = to?.openType || 'navigateTo'
     const url: string = Reflect.get(to, 'path') || Reflect.get(to, 'url') || ''
+    const beforeEach = to.beforeEach || false
 
     let route: IRouteLocationNormalized
 
@@ -100,6 +102,7 @@ export function createRouter(options: IRouterOptions): IRouter {
         query: query as Record<string, unknown>,
         openType,
         meta: Reflect.get(routes.value[index], 'meta') || {},
+        beforeEach,
       }
     }
 
@@ -133,17 +136,17 @@ export function createRouter(options: IRouterOptions): IRouter {
         }
 
         if (isObject(data)) {
-          navigate(data)
+          navigate({ ...data, beforeEach: true })
           return
         }
 
         if (isFunction(data)) {
-          data()
+          data({ beforeEach: true })
           return
         }
 
         if (isString(data)) {
-          navigate({ path: data })
+          navigate({ path: data, beforeEach: true })
           return
         }
 
@@ -215,6 +218,29 @@ export function createRouter(options: IRouterOptions): IRouter {
     isHotLaunchExecuted.value = false
   }
 
+  function tabItemShow() {
+    const pages = getCurrentPages()
+    const currentPage = pages[pages.length - 1]
+    const path = `/${currentPage.route}`
+    const lastRoute = matched.value[matched.value.length - 1]
+
+    if (lastRoute) {
+      if (lastRoute?.beforeEach || lastRoute.path === path) {
+        lastRoute.beforeEach = false
+        return
+      }
+    }
+
+    navigate(
+      {
+        path,
+        query: Reflect.get(currentPage, 'options') || {},
+        openType: 'switchTab',
+        isNavigate: false,
+      },
+    )
+  }
+
   function addRoute(route: IRouteRecord) {
     if (routes.value.findIndex((item: IRouteRecord) => item.path === route.path) > -1) {
       console.warn(`${route.path} 路由已存在，请勿重复添加！`)
@@ -244,11 +270,11 @@ export function createRouter(options: IRouterOptions): IRouter {
     beforeEach,
     afterEach,
 
-    navigateTo: (to: Omit<INavigateToOptions, 'isNavigate' | 'openType'>) => navigate(to),
-    redirectTo: (to: Omit<IRedirectToOptions, 'isNavigate' | 'openType'>) => navigate({ ...to, openType: 'redirectTo' }),
-    reLaunch: (to: Omit<IReLaunchOptions, 'isNavigate' | 'openType'>) => navigate({ ...to, openType: 'reLaunch' }),
-    switchTab: (to: Omit<ISwitchTabOptions, 'isNavigate' | 'openType'>) => navigate({ ...to, openType: 'switchTab' }),
-    navigateBack: (to?: Omit<INavigateBackOptions, 'isNavigate' | 'openType'>) => {
+    navigateTo: (to: NavigateNormalized<INavigateToOptions>) => navigate(to),
+    redirectTo: (to: NavigateNormalized<IRedirectToOptions>) => navigate({ ...to, openType: 'redirectTo' }),
+    reLaunch: (to: NavigateNormalized<IReLaunchOptions>) => navigate({ ...to, openType: 'reLaunch' }),
+    switchTab: (to: NavigateNormalized<ISwitchTabOptions>) => navigate({ ...to, openType: 'switchTab' }),
+    navigateBack: (to?: NavigateNormalized<INavigateBackOptions>) => {
       isNavigateBack.value = true
       navigate({ ...(to || {}), openType: 'navigateBack' })
     },
@@ -256,6 +282,7 @@ export function createRouter(options: IRouterOptions): IRouter {
     launch,
     hotLaunch,
     unload,
+    tabItemShow,
 
     install(app: App) {
       app.config.globalProperties.$router = this
