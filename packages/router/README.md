@@ -84,7 +84,7 @@ const router = createRouter({ ... })
 // 全局前置守卫
 router.beforeEach((to, from, next)=>{
   
-  // next 必须调用，支持使用 openType 指定跳转类型，支持：navigateTo、redirectTo、reLaunch、switchTab，默认为 navigateTo
+  // next 支持使用 openType 指定跳转类型，支持：navigateTo、redirectTo、reLaunch、switchTab，默认为 navigateTo
   next()
 })
 
@@ -118,6 +118,18 @@ onShow((options)=>{
 onHide(()=>{
   // 一定要添加这一行，否则无法触发热启动
   router.unload()
+})
+```
+
+在 `tabbar` 对应的页面上添加监听，如果不添加，切换 tab 时无法执行路由拦截，即 `beforeEach`
+```javascript
+import { useRouter } from 'uni-vant-router'
+import { onShow } from '@dcloudio/uni-app'
+
+const router = useRouter()
+
+onShow(()=>{
+  router.tabItemShow()
 })
 ```
 

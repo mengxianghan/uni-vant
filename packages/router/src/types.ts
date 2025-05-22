@@ -1,6 +1,6 @@
 import type { App, Ref } from 'vue'
 
-export type IOpenType = 'navigateTo' | 'redirectTo' | 'reLaunch' | 'switchTab' | 'navigateBack'
+export type OpenType = 'navigateTo' | 'redirectTo' | 'reLaunch' | 'switchTab' | 'navigateBack'
 
 export interface IRouteLocationNormalized {
   fullPath: string | string.PageURIString
@@ -8,7 +8,8 @@ export interface IRouteLocationNormalized {
   meta: Record<string | number | symbol, unknown>
   path: string
   query: Record<string, unknown>
-  openType: IOpenType
+  openType: OpenType
+  beforeEach: boolean
 }
 
 export interface IEngine {
@@ -45,7 +46,8 @@ export interface INavigateBaseOptions {
   path: string
   engine?: IEngine
   isNavigate?: boolean
-  openType?: IOpenType
+  openType?: OpenType
+  beforeEach?: boolean
 }
 
 export interface INavigateToOptions extends Omit<UniApp.NavigateToOptions, 'url'>, INavigateBaseOptions {
@@ -69,21 +71,24 @@ export interface INavigateBackOptions extends UniApp.NavigateBackOptions, Omit<I
 
 export type NavigateLocationOptions = INavigateToOptions | IRedirectToOptions | IReLaunchOptions | ISwitchTabOptions | INavigateBackOptions
 
+export type NavigateNormalized<T> = Omit<T, 'isNavigate' | 'openType' | 'beforeEach'>
+
 export interface IRouter {
   currentRoute: Readonly<Ref<IRouteLocationNormalized | undefined>>
   matched: Readonly<Ref<IRouteLocationNormalized[]>>
   addRoute: (route: IRouteRecord) => void
   removeRoute: (path: string) => void
-  navigateTo: (to: INavigateToOptions) => void
-  redirectTo: (to: IRedirectToOptions) => void
-  reLaunch: (to: IReLaunchOptions) => void
-  switchTab: (to: ISwitchTabOptions) => void
-  navigateBack: (to?: INavigateBackOptions) => void
+  navigateTo: (to: NavigateNormalized<INavigateToOptions>) => void
+  redirectTo: (to: NavigateNormalized<IRedirectToOptions>) => void
+  reLaunch: (to: NavigateNormalized<IReLaunchOptions>) => void
+  switchTab: (to: NavigateNormalized<ISwitchTabOptions>) => void
+  navigateBack: (to?: NavigateNormalized<INavigateBackOptions>) => void
   beforeEach: (guard: NavigationGuard) => void
   afterEach: (guard: NavigationGuard) => void
   launch: (options: UniApp.LaunchOptionsApp) => void
   hotLaunch: (options: UniApp.LaunchOptionsApp) => void
   unload: () => void
+  tabItemShow: () => void
   install: (app: App) => void
 }
 
