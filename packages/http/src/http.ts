@@ -115,7 +115,7 @@ class Http {
     })
   }
 
-  upload<T>(url: string, formData: FormData, uploadOptions?: UploadOptions): Promise<AxiosResponse<T>> {
+  upload<T>(url: string, formData: Record<any, any>, uploadOptions?: UploadOptions): Promise<AxiosResponse<T>> {
     return this.#axiosInstance.request<T>({
       ...(uploadOptions || {}),
       method: 'upload',
