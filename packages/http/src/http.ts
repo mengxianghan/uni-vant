@@ -7,6 +7,7 @@ import type {
   IHttpOptions,
   PostOptions,
   PutOptions,
+  UploadData,
   UploadOptions,
 } from './types'
 import { createUniAppAxiosAdapter } from '@uni-helper/axios-adapter'
@@ -115,12 +116,12 @@ class Http {
     })
   }
 
-  upload<T>(url: string, formData: Record<any, any>, uploadOptions?: UploadOptions): Promise<AxiosResponse<T>> {
+  upload<T>(url: string, data: UploadData, uploadOptions?: UploadOptions): Promise<AxiosResponse<T>> {
     return this.#axiosInstance.request<T>({
       ...(uploadOptions || {}),
       method: 'upload',
       url,
-      data: formData,
+      data,
     })
   }
 
